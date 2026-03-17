@@ -1809,11 +1809,9 @@ document.addEventListener('keydown', e => {
     document.removeEventListener('keydown',    tryAutoplay);
     document.removeEventListener('touchstart', tryAutoplay);
   }
-  window.addEventListener('splashDone', () => {
-    document.addEventListener('click',      tryAutoplay, {once:true});
-    document.addEventListener('keydown',    tryAutoplay, {once:true});
-    document.addEventListener('touchstart', tryAutoplay, {once:true, passive:true});
-  }, {once:true});
+  document.addEventListener('click',      tryAutoplay, {once:true});
+  document.addEventListener('keydown',    tryAutoplay, {once:true});
+  document.addEventListener('touchstart', tryAutoplay, {once:true, passive:true});
 })();
 
 /* ══════════════════ THREE.JS GLOBE ══════════════════ */
