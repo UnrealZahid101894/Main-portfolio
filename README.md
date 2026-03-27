@@ -1,6 +1,6 @@
 # zahid.dev
 
-**[unrealzahid.netlify.app](https://unrealzahid.netlify.app)**
+**[unrealzahid.netlify.app](https://main-portfolio-eight-iota.vercel.app/)**
 
 Single `index.html`. No build step, no bundler, no framework — just HTML, CSS, and JS with one CDN dependency (Three.js for the globe).
 
