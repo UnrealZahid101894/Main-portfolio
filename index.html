@@ -388,43 +388,58 @@ body.light .term-wrap{
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* ── PROJECTS ── */
+#projects{overflow:visible;}
 .pgrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:14px;
+  overflow:visible;
+  position:relative;
+  z-index:1;
 }
-/* FIX: Removed hardcoded background:#111 !important block that broke light mode */
 .pcard{
   border:1px solid var(--line);border-radius:4px;
-  padding:22px 20px;position:relative;overflow:hidden;
+  padding:22px 20px;position:relative;
   background:var(--surface);
-  transition:border-color var(--t-mid) var(--ease-out),
-             background var(--t-mid) var(--ease-out),
-             transform .32s var(--ease-out),
-             box-shadow .32s var(--ease-out);
+  transition:border-color .35s var(--ease-out),
+             background .35s var(--ease-out);
   cursor:default;will-change:transform;
+  z-index:1;
+  overflow:visible;
+  transform-style:preserve-3d;
+}
+.pcard::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.08) 0%,transparent 70%);
+  opacity:0;transition:opacity .45s var(--ease-out);pointer-events:none;
+  border-radius:4px;
 }
 .pcard::after{
-  content:"";position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.045) 0%,transparent 70%);
-  opacity:0;transition:opacity .42s var(--ease-out);pointer-events:none;
+  content:"";position:absolute;inset:-1px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:4px;
+  opacity:0;transition:opacity .35s var(--ease-out);pointer-events:none;
 }
 .pcard:hover{
-  border-color:var(--line-hi);
-  background:rgba(255,255,255,.026);
-  transform:translateY(-3px);
-  box-shadow:0 8px 28px rgba(0,0,0,.45);
+  border-color:rgba(255,255,255,.45);
+  background:rgba(24,24,24,1);
+  z-index:100;
 }
+.pcard:hover::before{opacity:1;}
+.pcard:hover::after{opacity:1;}
 body.light .pcard{
   background:rgba(0,0,0,.03);
   border-color:rgba(0,0,0,.1);
 }
 body.light .pcard:hover{
-  background:rgba(0,0,0,.06);
-  border-color:rgba(0,0,0,.22);
-  box-shadow:0 8px 28px rgba(0,0,0,.12);
+  background:#fff;
+  border-color:transparent;
+  box-shadow:
+    0 40px 80px rgba(0,0,0,.2),
+    0 20px 40px rgba(0,0,0,.12),
+    0 0 0 1px rgba(0,0,0,.15);
 }
-.pcard:hover::after{opacity:1;}
+body.light .pcard::after{border-color:rgba(0,0,0,.2);}
 .pc-top{
   display:flex;align-items:flex-start;justify-content:space-between;
   margin-bottom:14px;
@@ -460,25 +475,15 @@ body.light .pcard:hover .pc-name{text-shadow:none;}
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
 }
 .pc-tags{display:flex;gap:4px;flex-wrap:wrap;}
-
-/* FIX: pc-tag now uses CSS vars so light mode works properly */
 .pc-tag{
-  font-size:9px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--text);
-  border:1px solid var(--line-hi);
-  background:transparent;
-  padding:3px 8px;
-  border-radius:2px;
-  font-weight:600;
-  opacity:.7;
+  font-size:9px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text);border:1px solid var(--line-hi);
+  background:transparent;padding:3px 8px;border-radius:2px;
+  font-weight:600;opacity:.7;
 }
 body.light .pc-tag{
-  color:var(--body);
-  border-color:var(--line-hi);
-  background:rgba(0,0,0,.04);
-  opacity:1;
+  color:var(--body);border-color:var(--line-hi);
+  background:rgba(0,0,0,.04);opacity:1;
 }
 .pc-actions{
   display:flex;align-items:center;gap:12px;margin-top:14px;
@@ -653,8 +658,8 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
 .rv.vis{opacity:1;transform:none;}
 .rvs>*{
   opacity:0;transform:translateY(8px);
-  transition:opacity .55s var(--ease-out),transform .55s var(--ease-out);
-  will-change:opacity,transform;
+  transition:opacity .55s var(--ease-out);
+  will-change:transform;
 }
 .rvs.vis>*:nth-child(1){opacity:1;transform:none;transition-delay:0s}
 .rvs.vis>*:nth-child(2){opacity:1;transform:none;transition-delay:.05s}
@@ -1433,14 +1438,18 @@ window.addEventListener('scroll', () => {
 /* ══ DESKTOP NAV ══ */
 const secs = [...document.querySelectorAll('section[id]')];
 const nbs  = [...document.querySelectorAll('.nb')];
-const modeBarH = () => parseInt(getComputedStyle(document.getElementById('mode-bar')).height) || 28;
+const modeBarH = () => {
+  const el = document.getElementById('mode-bar');
+  return el ? parseInt(getComputedStyle(el).height) || 28 : 28;
+};
 nbs.forEach(b => {
   b.addEventListener('click', e => {
     e.preventDefault();
+    e.stopPropagation();
     const target = document.getElementById(b.dataset.s);
-    if (target){
-      const top = target.getBoundingClientRect().top + window.scrollY - modeBarH();
-      window.scrollTo({top, behavior:'smooth'});
+    if (target) {
+      const top = target.offsetTop - modeBarH();
+      window.scrollTo({ top, behavior: 'smooth' });
     }
   });
 });
@@ -1606,23 +1615,25 @@ ctpObs.observe(ctPrompt);
     let f = 0;
     function tick(){
       let out = '';
-      for (let i = 0; i < total; i++){
-        if (i < resolved) out += original[i];
-        else if (original[i] === ' ') out += ' ';
+      for(let i = 0; i < total; i++){
+        if(i < resolved) out += original[i];
+        else if(original[i] === ' ') out += ' ';
         else out += CHARS[Math.floor(Math.random() * CHARS.length)];
       }
       el.textContent = out;
       f++;
-      if (f % RESOLVE_EVERY === 0) resolved++;
-      if (resolved <= total) requestAnimationFrame(tick);
+      if(f % RESOLVE_EVERY === 0) resolved++;
+      if(resolved <= total) requestAnimationFrame(tick);
       else el.textContent = original;
     }
     requestAnimationFrame(tick);
   }
-  document.querySelectorAll('.pcard').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      const nm = card.querySelector('.pc-name');
-      if (nm) scramble(nm);
+
+  // Scramble on social links — targets the .s-name element
+  document.querySelectorAll('.s-link').forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      const name = link.querySelector('.s-name');
+      if(name) scramble(name);
     });
   });
 })();
@@ -2291,6 +2302,76 @@ document.addEventListener('keydown', e => {
 
     renderer.render(scene,cam);
   })();
+})();
+
+/* ══ MAGNETIC CARD HOVER ══ */
+(function(){
+  function lerp(a,b,t){return a+(b-a)*t;}
+
+  function attachCard(card){
+    let raf=null;
+    let rotX=0,rotY=0,scale=1,lift=0;
+    let tRotX=0,tRotY=0,tScale=1,tLift=0;
+    let inside=false;
+
+    function animate(){
+      rotX  = lerp(rotX,  tRotX,  0.18);
+      rotY  = lerp(rotY,  tRotY,  0.18);
+      scale = lerp(scale, tScale, 0.18);
+      lift  = lerp(lift,  tLift,  0.18);
+
+      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(${-lift}px) scale(${scale})`;
+      card.style.boxShadow = inside
+        ? `${-rotY*1.5}px ${rotX*1.5}px 50px rgba(0,0,0,.75),0 28px 55px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.18),0 0 70px rgba(255,255,255,.04)`
+        : '';
+
+      const done =
+        Math.abs(rotX-tRotX)<0.05 &&
+        Math.abs(rotY-tRotY)<0.05 &&
+        Math.abs(scale-tScale)<0.001 &&
+        Math.abs(lift-tLift)<0.05;
+
+      raf = done ? null : requestAnimationFrame(animate);
+    }
+
+    function go(){ if(!raf) raf=requestAnimationFrame(animate); }
+
+    card.addEventListener('mouseenter',()=>{
+      inside=true; tScale=1.06; tLift=22;
+      card.style.borderColor='rgba(255,255,255,.4)';
+      card.style.background='rgba(24,24,24,1)';
+      card.style.zIndex='100';
+      go();
+    });
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      tRotX=((e.clientY-r.top -r.height/2)/(r.height/2))*-10;
+      tRotY=((e.clientX-r.left-r.width /2)/(r.width /2))* 10;
+      go();
+    });
+    card.addEventListener('mouseleave',()=>{
+      inside=false; tRotX=0; tRotY=0; tScale=1; tLift=0;
+      card.style.borderColor='';
+      card.style.background='';
+      card.style.zIndex='';
+      go();
+    });
+  }
+
+  // Attach to all cards immediately
+  document.querySelectorAll('.pcard').forEach(attachCard);
+
+  // Re-attach when scroll reveal adds .vis class
+  new MutationObserver(()=>{
+    document.querySelectorAll('.pcard:not([data-mag])').forEach(card=>{
+      card.setAttribute('data-mag','1');
+      attachCard(card);
+    });
+  }).observe(document.querySelector('.pgrid')||document.body,
+    {attributes:true,subtree:true,attributeFilter:['class']}
+  );
+
+  document.querySelectorAll('.pcard').forEach(c=>c.setAttribute('data-mag','1'));
 })();
 </script>
 </body>
