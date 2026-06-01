@@ -593,6 +593,12 @@ body.light .s-link:hover .s-arr{color:rgba(0,0,0,.7);}
 }
 .c-foot span{font-size:9px;letter-spacing:.12em;color:var(--dim);}
 
+
+
+* { cursor: none !important; }
+
+
+
 /* ── GO TO TOP ── */
 #go-top{
   position:fixed;bottom:32px;right:28px;z-index:800;
@@ -883,6 +889,10 @@ body:not(.light) #spb-side {
 @media(max-width:960px){
   #spb-side { left: 0; }
 }
+
+.a-h span{ display:block; }
+
+
 </style>
 </head>
 <body>
@@ -891,7 +901,7 @@ body:not(.light) #spb-side {
   <source src="portfolio 02.mp3" type="audio/mpeg">
 </audio>
 
-<canvas id="rain" aria-hidden="true"></canvas>
+<canvas id="rain"  aria-hidden="true"></canvas>
 <div id="cur" aria-hidden="true"><div class="cv"></div><div class="ch"></div><div class="cc"></div></div>
 
 <div id="spb-side"></div>
@@ -1002,7 +1012,9 @@ body:not(.light) #spb-side {
   <div class="s-lbl">about</div>
   <div class="about-grid rv">
     <div>
-      <h2 class="a-h">Casually solving<br>problems <em>I caused.</em></h2>
+      <h2 class="a-h" id="about-heading">
+  <span>Casually solving</span><span>problems I caused.</span>
+</h2>
       <p class="a-p">CSE student in Dhaka, Bangladesh. I build real, deployed things — bias toward shipping over theorizing. Specialization in AI-enhanced web development and automation.</p>
       <p class="a-p">Currently commercializing <strong>Setanel</strong> — anti-piracy SDK for EdTech platforms across South Asia. I care about open source, clean systems, building from first principles.</p>
     </div>
@@ -1040,36 +1052,36 @@ body:not(.light) #spb-side {
           <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
           Source
         </a>
-        <a class="pc-live" href="https://www.npmjs.com/package/setanel-sdk" target="_blank" rel="noopener noreferrer">npm ↗</a>
+        <a class="pc-live" href="https://setanel.vercel.app/" target="_blank" rel="noopener noreferrer">View ↗</a>
       </div>
     </div>
 
     <div class="pcard">
-      <div class="pc-top">
-        <svg class="pc-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="2" y="3" width="20" height="17" rx="2"/>
-          <path d="M2 8h20"/>
-          <circle cx="5" cy="5.5" r=".8" fill="currentColor"/>
-          <circle cx="8" cy="5.5" r=".8" fill="currentColor"/>
-          <path d="M5 12h14M5 16h8"/>
-        </svg>
-        <a class="pc-ext" href="https://github.com/UnrealZahid101894/Content_Portfolio" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub">↗</a>
-      </div>
-      <div class="pc-num">02</div>
-      <div class="pc-name">Content Portfolio</div>
-      <div class="pc-meta">Web Design · Client Tool · 2024</div>
-      <p class="pc-desc">Zero-dependency portfolio template for content creators. Pure HTML and CSS.</p>
-      <div class="pc-tags">
-        <span class="pc-tag">HTML</span><span class="pc-tag">CSS</span><span class="pc-tag">Vanilla JS</span>
-      </div>
-      <div class="pc-actions">
-        <a class="pc-gh" href="https://github.com/UnrealZahid101894/Content_Portfolio" target="_blank" rel="noopener noreferrer">
-          <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          Source
-        </a>
-        <a class="pc-live" href="https://github.com/UnrealZahid101894/Content_Portfolio" target="_blank" rel="noopener noreferrer">View ↗</a>
-      </div>
-    </div>
+  <div class="pc-top">
+    <svg class="pc-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="2" y="3" width="20" height="14" rx="2"/>
+      <path d="M2 8h20"/>
+      <path d="M7 12h3M7 15h5"/>
+      <circle cx="17" cy="13.5" r="2.5"/>
+      <path d="M19 16l1.5 1.5"/>
+    </svg>
+    <a class="pc-ext" href="https://github.com/UnrealZahid101894/Agency_website" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub">↗</a>
+  </div>
+  <div class="pc-num">02</div>
+  <div class="pc-name">Agency Website</div>
+  <div class="pc-meta">Web Design · Business · 2024</div>
+  <p class="pc-desc">Full agency landing page — services, portfolio, team sections. Clean layout built with pure HTML and assets. Client-ready, zero dependencies.</p>
+  <div class="pc-tags">
+    <span class="pc-tag">HTML</span><span class="pc-tag">CSS</span><span class="pc-tag">Assets</span>
+  </div>
+  <div class="pc-actions">
+    <a class="pc-gh" href="https://github.com/UnrealZahid101894/Agency_website" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+      Source
+    </a>
+    <a class="pc-live" href="https://agency-website-six-orpin.vercel.app" target="_blank" rel="noopener noreferrer">View ↗</a>
+  </div>
+</div>
 
     <div class="pcard">
       <div class="pc-top">
@@ -1090,7 +1102,7 @@ body:not(.light) #spb-side {
           <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
           Source
         </a>
-        <a class="pc-live" href="https://github.com/UnrealZahid101894/valentine-site" target="_blank" rel="noopener noreferrer">View ↗</a>
+        <a class="pc-live" href="https://valentine-site-hazel.vercel.app/" target="_blank" rel="noopener noreferrer">View ↗</a>
       </div>
     </div>
 
@@ -1232,9 +1244,7 @@ function toggleTheme(){
   setTimeout(() => n.classList.remove('show'), 2000);
 }
 
-/* ══ ASCII RAIN + SPLASH ══
-   FIX: Changed splash title font from Syne 800 to JetBrains Mono Bold
-   for consistent terminal/monospace identity throughout */
+/* ══ ASCII RAIN + SPLASH ══ */
 (function(){
   const c = document.getElementById('rain');
   const ctx = c.getContext('2d');
@@ -1249,17 +1259,18 @@ function toggleTheme(){
 
   const RAIN_CHARS = '01アイウエオカキクケコEFGH{}[]<>/\\|#@$%^&*()_+=-ABCDfunc(){return}importconst';
   const FS = 13;
-  let cols, drops;
+  let cols, drops, speeds, brightnesses;
 
   function initDrops(){
-    cols  = Math.floor(W / FS);
-    drops = new Array(cols).fill(0).map(() => Math.random() * -60);
+    cols        = Math.floor(W / FS);
+    drops       = new Array(cols).fill(0).map(() => Math.random() * -60);
+    speeds      = new Array(cols).fill(0).map(() => 0.3 + Math.random() * 0.7);
+    brightnesses= new Array(cols).fill(0).map(() => Math.random());
   }
   initDrops();
   window.addEventListener('resize', () => { resize(); initDrops(); recompute(); }, {passive:true});
 
   const TITLE = 'ZAHID';
-  /* FIX: Use JetBrains Mono Bold — matches the terminal aesthetic of the whole site */
   const TITLE_FONT = '700 ';
   const TITLE_FF   = '"JetBrains Mono", monospace';
   let titleFS, titleY, letterRects;
@@ -1290,59 +1301,113 @@ function toggleTheme(){
     layoutReady = true;
   }
 
-  const revealState = new Float32Array(TITLE.length);
+  const revealState    = new Float32Array(TITLE.length);
+  const letterFlash    = new Float32Array(TITLE.length);
   let startTS = null, allRevealedAt = null, exiting = false;
   const MIN_TOTAL_MS = 2000, MIN_RAIN_MS = 800, POST_REVEAL_MS = 550;
+
+  /* fake loading messages */
+  const loadMsgs = [
+    'initializing systems...',
+    'loading assets...',
+    'compiling portfolio...',
+    'almost ready...',
+    'ready.'
+  ];
+  let loadMsgIdx = 0;
+  let loadMsgTimer = 0;
+
+  /* exit speed multiplier */
+  let exitSpeedMul = 1;
 
   function doExit(){
     if (exiting) return;
     exiting = true;
-    c.style.transition = 'opacity 0.85s ease';
-    c.style.opacity = '0';
-    document.getElementById('hc').classList.add('visible');
-    document.body.style.overflow = '';
-    window.dispatchEvent(new CustomEvent('splashDone'));
-    setTimeout(() => { c.style.display = 'none'; }, 1000);
+    /* speed up rain then collapse */
+    exitSpeedMul = 1;
+    let speedFrame = 0;
+    function speedUp(){
+      speedFrame++;
+      exitSpeedMul = 1 + speedFrame * 0.18;
+      if(exitSpeedMul < 12) requestAnimationFrame(speedUp);
+      else {
+        c.style.transition = 'opacity 0.65s ease';
+        c.style.opacity = '0';
+        c.style.pointerEvents = 'none';
+        document.getElementById('hc').classList.add('visible');
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        window.dispatchEvent(new CustomEvent('splashDone'));
+        setTimeout(() => { c.style.display = 'none'; }, 800);
+      }
+    }
+    requestAnimationFrame(speedUp);
   }
 
   function draw(ts){
-    if (exiting) return;
+    if (exiting && exitSpeedMul >= 12) return;
     requestAnimationFrame(draw);
     if (!startTS) startTS = ts;
     const elapsed = ts - startTS;
 
-    ctx.fillStyle = 'rgba(8,8,8,0.06)';
+    /* update loading message */
+    loadMsgTimer += 16;
+    if(loadMsgTimer > 900 && loadMsgIdx < loadMsgs.length - 1){
+      loadMsgIdx++;
+      loadMsgTimer = 0;
+    }
+
+    ctx.fillStyle = 'rgba(8,8,8,0.055)';
     ctx.fillRect(0, 0, W, H);
 
-    ctx.font = `${FS}px "JetBrains Mono", monospace`;
     ctx.textBaseline = 'alphabetic';
     for (let i = 0; i < cols; i++){
-      const alpha = 0.07 + Math.random() * 0.46;
-      ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+      const speed  = speeds[i] * exitSpeedMul;
+      const bright = brightnesses[i];
+      const cy = drops[i] * FS;
       const ch = RAIN_CHARS[Math.floor(Math.random() * RAIN_CHARS.length)];
       const cx = i * FS;
-      const cy = drops[i] * FS;
+
+      /* trail — dim character behind */
+      if(drops[i] > 1){
+        ctx.font = `${FS}px "JetBrains Mono", monospace`;
+        ctx.fillStyle = `rgba(255,255,255,${0.04 + bright * 0.08})`;
+        ctx.fillText(ch, cx, cy - FS * 2);
+      }
+
+      /* main character */
+      const alpha = 0.08 + Math.random() * (0.4 + bright * 0.3);
+      ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+      ctx.font = `${FS}px "JetBrains Mono", monospace`;
       ctx.fillText(ch, cx, cy);
 
+      /* bright head character */
+      ctx.fillStyle = `rgba(255,255,255,${0.6 + bright * 0.4})`;
+      ctx.fillText(RAIN_CHARS[Math.floor(Math.random() * RAIN_CHARS.length)], cx, cy + FS);
+
+
       if (layoutReady && elapsed > MIN_RAIN_MS){
-        const dropY = cy;
-        if (dropY >= titleY - titleFS * 0.85 && dropY <= titleY + titleFS * 0.18){
-          for (let j = 0; j < TITLE.length; j++){
-            if (revealState[j] < 1){
-              const lr = letterRects[j];
-              if (cx >= lr.x - FS * 0.5 && cx <= lr.x + lr.w + FS * 0.5){
-                revealState[j] = Math.min(1, revealState[j] + 0.09);
-              }
-            }
-          }
+  if (cy >= titleY - titleFS * 0.85 && cy <= titleY + titleFS * 0.18){
+    for (let j = 0; j < TITLE.length; j++){
+      if (revealState[j] < 1){
+        // only reveal if previous letter is already done
+        const prevDone = j === 0 || revealState[j-1] >= 1;
+        if(!prevDone) continue;
+        const lr = letterRects[j];
+        if (cx >= lr.x - FS * 0.5 && cx <= lr.x + lr.w + FS * 0.5){
+          revealState[j] = Math.min(1, revealState[j] + 0.09);
+          if(revealState[j] >= 1) letterFlash[j] = 1.0;
         }
       }
+    }
+  }
+}
 
       if (elapsed > 2600 && revealState[i % TITLE.length] < 1){
         revealState[i % TITLE.length] = Math.min(1, revealState[i % TITLE.length] + 0.006);
       }
       if (drops[i] * FS > H && Math.random() > 0.975) drops[i] = 0;
-      drops[i] += 0.5;
+      drops[i] += speed;
     }
 
     if (layoutReady){
@@ -1351,22 +1416,49 @@ function toggleTheme(){
         const a = revealState[j];
         if (a > 0){
           ctx.font = `${TITLE_FONT}${titleFS}px ${TITLE_FF}`;
-          ctx.fillStyle = `rgba(255,255,255,${a * 0.92})`;
+
+          /* flash pulse when letter first resolves */
+          if(letterFlash[j] > 0){
+            ctx.fillStyle = `rgba(255,255,255,${Math.min(1, a * 0.92 + letterFlash[j] * 0.5)})`;
+            letterFlash[j] = Math.max(0, letterFlash[j] - 0.045);
+          } else {
+            ctx.fillStyle = `rgba(255,255,255,${a * 0.92})`;
+          }
           ctx.fillText(letterRects[j].ch, letterRects[j].x, titleY);
         }
       }
+
+      /* segmented progress bar */
       const prog = Array.from(revealState).reduce((s, v) => s + v, 0) / TITLE.length;
       const barW = 180, barX = W / 2 - barW / 2;
       const barY = titleY + Math.round(titleFS * 0.52);
-      ctx.fillStyle = 'rgba(255,255,255,0.11)';
-      ctx.fillRect(barX, barY, barW, 1);
-      ctx.fillStyle = 'rgba(255,255,255,0.52)';
-      ctx.fillRect(barX, barY, Math.round(barW * prog), 1);
+      const SEGS = 20;
+      const segW = Math.floor(barW / SEGS);
+      const filledSegs = Math.floor(prog * SEGS);
+
+      ctx.font = `10px "JetBrains Mono", monospace`;
+      for(let s=0;s<SEGS;s++){
+        const sx = barX + s * segW;
+        if(s < filledSegs){
+          ctx.fillStyle = 'rgba(255,255,255,0.7)';
+          ctx.fillText('█', sx, barY + 2);
+        } else {
+          ctx.fillStyle = 'rgba(255,255,255,0.12)';
+          ctx.fillText('░', sx, barY + 2);
+        }
+      }
+
+      /* percentage */
+      const pct = Math.round(prog * 100);
       ctx.font = `9px "JetBrains Mono", monospace`;
-      ctx.fillStyle = 'rgba(255,255,255,0.26)';
+      ctx.fillStyle = 'rgba(255,255,255,0.45)';
       ctx.textAlign = 'center';
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillText('portfolio · 2026', W / 2, barY + 18);
+      ctx.fillText(`${pct}%`, W / 2, barY + 18);
+
+      /* cycling loading message */
+      ctx.fillStyle = 'rgba(255,255,255,0.22)';
+      ctx.fillText(loadMsgs[loadMsgIdx], W / 2, barY + 32);
+
       ctx.textAlign = 'left';
     }
 
@@ -1409,6 +1501,12 @@ if (!isTouch) {
   document.querySelectorAll('.nb').forEach(b => {
     b.addEventListener('mouseenter', () => document.body.classList.add('nav-hov'));
     b.addEventListener('mouseleave', () => document.body.classList.remove('nav-hov'));
+  });
+
+  const hoverEls = 'a, button, .pcard, .s-link, .nav-logo, [role="button"]';
+  document.querySelectorAll(hoverEls).forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('nav-hov'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('nav-hov'));
   });
 }
 
@@ -1520,14 +1618,19 @@ ctpObs.observe(ctPrompt);
   function step(){
     let html = '';
     for (let i = 0; i < text.length; i++){
-      if (i < resolved)       html += `<span>${text[i]}</span>`;
+      if (i < resolved)        html += `<span>${text[i]}</span>`;
       else if (i === resolved) html += `<span class="cur"></span>`;
       else                     html += `<span class="dc">${glyphs[Math.floor(Math.random()*glyphs.length)]}</span>`;
     }
     target.innerHTML = html;
-    if (resolved < text.length){ resolved++; requestAnimationFrame(step); }
-    else { target.textContent = text; }
+    if (resolved < text.length){
+      resolved++;
+      setTimeout(() => requestAnimationFrame(step), 38);
+    } else {
+      target.textContent = text;
+    }
   }
+
   function startType(){ if (!started){ started = true; requestAnimationFrame(step); } }
   window.addEventListener('splashDone', () => setTimeout(startType, 300), {once:true});
   setTimeout(startType, 5000);
@@ -2373,6 +2476,77 @@ document.addEventListener('keydown', e => {
 
   document.querySelectorAll('.pcard').forEach(c=>c.setAttribute('data-mag','1'));
 })();
+
+
+/* ══ ABOUT HEADING CYCLE ══ */
+(function(){
+  const el = document.getElementById('about-heading');
+  if(!el) return;
+
+  const phrases = [
+    ['Casually solving', 'problems I caused.'],
+    ['Building things', 'before asking why.'],
+    ['Shipping first,', 'panicking second.'],
+    ['Writing code that', 'works somehow.'],
+  ];
+
+  const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%?&*-+';
+  let idx = 0, loopStarted = false;
+
+  function renderSpans(lines){
+    el.innerHTML = lines.map(l=>`<span>${l}</span>`).join('');
+  }
+
+  function scrambleIn(lines, done){
+    renderSpans(lines);
+    const spanEls = [...el.querySelectorAll('span')];
+    const positions = [];
+    lines.forEach((line,si)=>{ for(let ci=0;ci<line.length;ci++) positions.push([si,ci]); });
+    for(let i=positions.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [positions[i],positions[j]]=[positions[j],positions[i]];
+    }
+    const resolved = lines.map(l=>new Array(l.length).fill(false));
+    let ptr=0;
+    const BATCH=3;
+    function tick(){
+      for(let b=0;b<BATCH&&ptr<positions.length;b++,ptr++){
+        const [si,ci]=positions[ptr];
+        resolved[si][ci]=true;
+      }
+      spanEls.forEach((span,si)=>{
+        let s='';
+        for(let ci=0;ci<lines[si].length;ci++){
+          if(resolved[si][ci]) s+=lines[si][ci];
+          else if(lines[si][ci]===' ') s+=' ';
+          else s+=GLYPHS[Math.floor(Math.random()*GLYPHS.length)];
+        }
+        span.textContent=s;
+      });
+      if(ptr<positions.length) requestAnimationFrame(tick);
+      else{ renderSpans(lines); if(done) done(); }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function cycle(){
+    idx=(idx+1)%phrases.length;
+    scrambleIn(phrases[idx], ()=>{ setTimeout(cycle, 3500); });
+  }
+
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting && !loopStarted){
+        loopStarted=true;
+        obs.disconnect();
+        renderSpans(phrases[0]);
+        setTimeout(cycle, 3500);
+      }
+    });
+  },{threshold:0.2});
+  obs.observe(el);
+})();
+
 </script>
 </body>
 </html>
