@@ -893,6 +893,112 @@ body:not(.light) #spb-side {
 .a-h span{ display:block; }
 
 
+/* ── CV + EMAIL BUTTONS ── */
+.cv-btn, .email-btn{
+  display:inline-flex;align-items:center;gap:10px;margin-top:22px;
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--text);text-decoration:none;padding:13px 22px;
+  font-family:var(--ff);position:relative;z-index:10;
+  border:none;background:transparent;cursor:pointer;
+  transition:color .22s var(--ease-out);
+}
+.cv-btn::before,.email-btn::before,
+.cv-btn::after,.email-btn::after{
+  content:'';position:absolute;transition:all .45s var(--ease-out);
+}
+/* animated corner brackets */
+.cv-btn::before,.email-btn::before{
+  top:0;left:0;
+  width:12px;height:12px;
+  border-top:1px solid rgba(255,255,255,.7);
+  border-left:1px solid rgba(255,255,255,.7);
+}
+.cv-btn::after,.email-btn::after{
+  bottom:0;right:0;
+  width:12px;height:12px;
+  border-bottom:1px solid rgba(255,255,255,.7);
+  border-right:1px solid rgba(255,255,255,.7);
+}
+.cv-btn:hover::before,.email-btn:hover::before{
+  width:100%;height:100%;
+  border-right:1px solid rgba(255,255,255,.12);
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.cv-btn:hover::after,.email-btn:hover::after{
+  width:100%;height:100%;
+  border-left:1px solid rgba(255,255,255,.12);
+  border-top:1px solid rgba(255,255,255,.12);
+}
+.cv-btn:hover,.email-btn:hover{
+  background:rgba(255,255,255,.04);
+  text-shadow:0 0 18px rgba(255,255,255,.6);
+}
+.cv-btn .btn-icon,.email-btn .btn-icon{
+  font-size:11px;
+  transition:transform .32s var(--ease-out);
+}
+.cv-btn:hover .btn-icon{ transform:translateY(3px); }
+.email-btn:hover .btn-icon{ transform:translate(3px,-3px); }
+
+/* scan line sweep on hover */
+.cv-btn .btn-scan,.email-btn .btn-scan{
+  position:absolute;inset:0;overflow:hidden;pointer-events:none;
+}
+.cv-btn .btn-scan::after,.email-btn .btn-scan::after{
+  content:'';position:absolute;
+  top:-100%;left:0;right:0;height:100%;
+  background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.06) 50%,transparent 100%);
+  transition:top .55s var(--ease-out);
+}
+.cv-btn:hover .btn-scan::after,.email-btn:hover .btn-scan::after{
+  top:100%;
+}
+
+/* counter label */
+.cv-btn .btn-label,.email-btn .btn-label{
+  display:flex;flex-direction:column;align-items:flex-start;gap:1px;
+}
+.cv-btn .btn-sub,.email-btn .btn-sub{
+  font-size:7.5px;letter-spacing:.16em;color:rgba(255,255,255,.32);
+  line-height:1;transition:color .22s;
+}
+.cv-btn:hover .btn-sub,.email-btn:hover .btn-sub{ color:rgba(255,255,255,.55); }
+
+body.light .cv-btn::before,.body.light .email-btn::before{border-color:rgba(0,0,0,.6);}
+body.light .cv-btn::after,.body.light .email-btn::after{border-color:rgba(0,0,0,.6);}
+body.light .cv-btn:hover,.body.light .email-btn:hover{background:rgba(0,0,0,.04);}
+
+/* button row */
+.about-btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:4px;}
+
+.cv-btn,
+.email-btn{
+    width: 180px;
+    justify-content: center;
+}
+
+
+/* ── LOAD MORE ── */
+@keyframes cardReveal{
+  from{opacity:0;transform:translateY(18px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.pcard.pc-reveal{animation:cardReveal .45s var(--ease-out) both;}
+#load-more-wrap{text-align:center;margin-top:32px;}
+#load-more-btn{
+  font-family:var(--ff);font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);background:transparent;border:1px solid var(--line-hi);
+  padding:10px 22px;border-radius:2px;cursor:pointer;
+  transition:color .18s,border-color .18s,background .18s;
+}
+#load-more-btn:hover{color:var(--text);border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.04);}
+
+/* ── CURSOR TRAIL ── */
+.cur-trail{
+  position:fixed;pointer-events:none;z-index:9996;
+  border-radius:50%;transform:translate(-50%,-50%);will-change:transform;
+}
+
 </style>
 </head>
 <body>
@@ -1017,6 +1123,16 @@ body:not(.light) #spb-side {
 </h2>
       <p class="a-p">CSE student in Dhaka, Bangladesh. I build real, deployed things — bias toward shipping over theorizing. Specialization in AI-enhanced web development and automation.</p>
       <p class="a-p">Currently commercializing <strong>Setanel</strong> — anti-piracy SDK for EdTech platforms across South Asia. I care about open source, clean systems, building from first principles.</p>
+      <div class="about-btns">
+  <a href="resume.pdf" download class="cv-btn">
+    <div class="btn-scan"></div>
+    <div class="btn-label">
+      <span>Download CV</span>
+      <span class="btn-sub">PDF · updated 2026</span>
+    </div>
+    <span class="btn-icon">↓</span>
+  </a>
+</div>
     </div>
     <div class="term-wrap">
       <div class="term-bar">
@@ -1207,7 +1323,14 @@ body:not(.light) #spb-side {
     </div>
     <div style="display:flex;flex-direction:column;justify-content:center;gap:16px;">
       <p style="font-family:var(--fb);font-size:14.5px;line-height:1.88;color:var(--body);">Whether it's a project idea, a collaboration, a freelance job, or just a conversation — I'm reachable. I respond to everything.</p>
-      <a href="https://mail.google.com/mail/?view=cm&to=jahidulislam01018940@gmail.com&su=Hey%20Zahid%20%E2%80%94%20Let%27s%20connect" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text);text-decoration:none;padding:9px 14px;border:1px solid var(--line-hi);border-radius:2px;width:fit-content;transition:background .18s,border-color .22s,transform .22s;" onmouseenter="const l=document.body.classList.contains('light');this.style.background=l?'rgba(0,0,0,0.06)':'rgba(255,255,255,0.06)';this.style.borderColor=l?'rgba(0,0,0,0.35)':'rgba(255,255,255,0.4)';this.style.transform='translate(2px,-2px)'" onmouseleave="this.style.background='';this.style.borderColor='';this.style.transform=''">Send an email ↗</a>
+      <a href="https://mail.google.com/mail/?view=cm&to=jahidulislam01018940@gmail.com&su=Hey%20Zahid%20%E2%80%94%20Let%27s%20connect" target="_blank" rel="noopener noreferrer" class="email-btn">
+  <div class="btn-scan"></div>
+  <div class="btn-label">
+    <span>Send an email</span>
+    <span class="btn-sub">i respond to everything</span>
+  </div>
+  <span class="btn-icon">↗</span>
+</a>
     </div>
   </div>
   <div class="social-grid rv">
@@ -1226,6 +1349,8 @@ body:not(.light) #spb-side {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
+    history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
 'use strict';
 
 
@@ -1249,6 +1374,7 @@ function toggleTheme(){
   const c = document.getElementById('rain');
   const ctx = c.getContext('2d');
   document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
 
   let W, H;
   function resize(){
@@ -2546,6 +2672,83 @@ document.addEventListener('keydown', e => {
   },{threshold:0.2});
   obs.observe(el);
 })();
+
+
+/* ══ LOAD MORE ══ */
+(function(){
+  const grid = document.querySelector('.pgrid');
+  if(!grid) return;
+  const cards = [...grid.querySelectorAll('.pcard')];
+  const DEFAULT = () => window.innerWidth <= 960 ? 3 : 6;
+  const wrap = document.createElement('div');
+  wrap.id = 'load-more-wrap';
+  const btn = document.createElement('button');
+  btn.id = 'load-more-btn';
+  wrap.appendChild(btn);
+  grid.parentNode.insertBefore(wrap, grid.nextSibling);
+  let expanded = false;
+
+  function apply(animate){
+    const t = DEFAULT();
+    cards.forEach((c,i) => { if(i < t) c.style.display = ''; });
+    const extra = cards.slice(t);
+    wrap.style.display = extra.length ? '' : 'none';
+    if(!expanded){
+      extra.forEach(c => { c.style.display = 'none'; c.classList.remove('pc-reveal'); });
+      btn.innerHTML = 'Load More ↓';
+    } else {
+      extra.forEach((c,i) => {
+        c.style.display = '';
+        if(animate) requestAnimationFrame(() => requestAnimationFrame(() => {
+          c.style.animationDelay = `${i * 0.07}s`;
+          c.classList.add('pc-reveal');
+        }));
+      });
+      btn.innerHTML = 'Show Less ↑';
+    }
+  }
+
+  btn.addEventListener('click', () => {
+    expanded = !expanded;
+    apply(true);
+    if(!expanded) document.getElementById('projects')?.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  apply(false);
+
+  let rt;
+  window.addEventListener('resize', () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => { expanded = false; apply(false); }, 250);
+  }, {passive:true});
+})();
+
+/* ══ CURSOR TRAIL ══ */
+if(!isTouch){
+  const N = 10;
+  const trail = [], pos = [];
+  let mx2 = -200, my2 = -200;
+  document.addEventListener('mousemove', e => { mx2 = e.clientX; my2 = e.clientY; }, {passive:true});
+  for(let i = 0; i < N; i++){
+    const d = document.createElement('div');
+    const sz = Math.max(1.2, 2.8 - i * 0.16);
+    const op = Math.max(0.05, 0.40 - i * 0.038);
+    d.className = 'cur-trail';
+    d.style.cssText += `width:${sz}px;height:${sz}px;background:rgba(255,255,255,${op});left:0;top:0;`;
+    document.body.appendChild(d);
+    trail.push(d);
+    pos.push({x:-200, y:-200});
+  }
+  (function trailLoop(){
+    pos[0].x += (mx2 - pos[0].x) * 0.38;
+    pos[0].y += (my2 - pos[0].y) * 0.38;
+    for(let i = 1; i < N; i++){
+      pos[i].x += (pos[i-1].x - pos[i].x) * 0.55;
+      pos[i].y += (pos[i-1].y - pos[i].y) * 0.55;
+    }
+    trail.forEach((d,i) => d.style.transform = `translate(calc(${pos[i].x}px - 50%),calc(${pos[i].y}px - 50%))`);
+    requestAnimationFrame(trailLoop);
+  })();
+}
 
 </script>
 </body>
