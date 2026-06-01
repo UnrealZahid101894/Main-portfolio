@@ -36,6 +36,13 @@
   --hero-tag:rgba(255,255,255,.55);
 }
 
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
 body.light{
   --bg:#f2f2f2;--surface:#e8e8e8;--text:#141414;--body:#424242;
   --dim:#707070;--faint:#d0d0d0;
@@ -59,14 +66,7 @@ body{
 }
 body:not(.touch-device){cursor:none}
 
-body::before{
-  content:"";position:fixed;inset:0;
-  background-image:radial-gradient(circle,rgba(255,255,255,.08) 1.2px,transparent 1.2px);
-  background-size:28px 28px;pointer-events:none;z-index:0;
-}
-body.light::before{
-  background-image:radial-gradient(circle,rgba(0,0,0,.12) 1.2px,transparent 1.2px);
-}
+/* FIX: Removed dotted radial-gradient background — was fragmenting every section visually */
 
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
@@ -116,9 +116,6 @@ body.light #mode-bar{background:rgba(242,242,242,.98);}
 body.light #mode-notif{background:rgba(0,0,0,.06);}
 #mode-notif.show{opacity:1;}
 
-/* ── SCROLL PROGRESS ── */
-#spb{position:fixed;top:28px;left:var(--nav-w);height:1px;width:0%;background:rgba(255,255,255,.45);z-index:500;transition:left .3s;}
-body.light #spb{background:rgba(0,0,0,.35);}
 
 /* ── ASCII RAIN ── */
 #rain{position:fixed;inset:0;z-index:9000;pointer-events:none;}
@@ -310,12 +307,14 @@ body.light #h-type .cur{background:rgba(0,0,0,.75);}
 /* ── TICKER ── */
 .ticker{
   height:36px;overflow:hidden;display:flex;align-items:center;
-  background:rgba(8,8,8,.92);border-top:1px solid var(--line);position:relative;z-index:3;
+  background:rgba(8,8,8,.92);border-top:none;position:relative;z-index:3;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,black 12%,black 88%,transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0%,black 12%,black 88%,transparent 100%);
 }
 body.light .ticker{background:rgba(242,242,242,.92);}
 .t-track{display:flex;white-space:nowrap;animation:tk 34s linear infinite;will-change:transform;}
-.t-track span{font-size:10px;letter-spacing:.18em;color:rgba(255,255,255,.36);padding:0 20px;}
-.t-track .sep{color:rgba(255,255,255,.12);padding:0 2px;}
+.t-track span{font-size:13px;letter-spacing:.18em;color:rgba(255,255,255,.92);padding:0 20px;text-shadow:0 0 12px rgba(255,255,255,.7),0 0 24px rgba(255,255,255,.35);font-weight:600;}
+.t-track .sep{color:rgba(255,255,255,.35);padding:0 2px;text-shadow:0 0 8px rgba(255,255,255,.4);}
 body.light .t-track span{color:rgba(0,0,0,.5);}
 body.light .t-track .sep{color:rgba(0,0,0,.2);}
 @keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -403,19 +402,16 @@ body.light .term-wrap{
   grid-template-columns:repeat(3,1fr);
   gap:14px;
 }
+/* FIX: Removed hardcoded background:#111 !important block that broke light mode */
 .pcard{
   border:1px solid var(--line);border-radius:4px;
   padding:22px 20px;position:relative;overflow:hidden;
-  background:rgba(255,255,255,.008);
+  background:var(--surface);
   transition:border-color var(--t-mid) var(--ease-out),
              background var(--t-mid) var(--ease-out),
              transform .32s var(--ease-out),
              box-shadow .32s var(--ease-out);
   cursor:default;will-change:transform;
-}
-body.light .pcard{
-  background:rgba(0,0,0,.015);
-  border-color:rgba(0,0,0,.12);
 }
 .pcard::after{
   content:"";position:absolute;inset:0;
@@ -428,9 +424,14 @@ body.light .pcard{
   transform:translateY(-3px);
   box-shadow:0 8px 28px rgba(0,0,0,.45);
 }
+body.light .pcard{
+  background:rgba(0,0,0,.03);
+  border-color:rgba(0,0,0,.1);
+}
 body.light .pcard:hover{
-  background:rgba(0,0,0,.04);
+  background:rgba(0,0,0,.06);
   border-color:rgba(0,0,0,.22);
+  box-shadow:0 8px 28px rgba(0,0,0,.12);
 }
 .pcard:hover::after{opacity:1;}
 .pc-top{
@@ -457,6 +458,7 @@ body.light .pcard:hover{
   transition:text-shadow .22s var(--ease);
 }
 .pcard:hover .pc-name{text-shadow:0 0 20px rgba(255,255,255,.25);}
+body.light .pcard:hover .pc-name{text-shadow:none;}
 .pc-meta{
   font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--dim);margin-bottom:10px;
@@ -467,12 +469,26 @@ body.light .pcard:hover{
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
 }
 .pc-tags{display:flex;gap:4px;flex-wrap:wrap;}
+
+/* FIX: pc-tag now uses CSS vars so light mode works properly */
 .pc-tag{
-  font-size:8px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--dim);border:1px solid var(--faint);
-  padding:2px 6px;border-radius:2px;
+  font-size:9px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--text);
+  border:1px solid var(--line-hi);
+  background:transparent;
+  padding:3px 8px;
+  border-radius:2px;
+  font-weight:600;
+  opacity:.7;
 }
-body.light .pc-tag{border-color:rgba(0,0,0,.18);color:#666;}
+body.light .pc-tag{
+  color:var(--body);
+  border-color:var(--line-hi);
+  background:rgba(0,0,0,.04);
+  opacity:1;
+}
 .pc-actions{
   display:flex;align-items:center;gap:12px;margin-top:14px;
   padding-top:12px;border-top:1px solid var(--line);
@@ -492,11 +508,7 @@ body.light .pc-tag{border-color:rgba(0,0,0,.18);color:#666;}
   transition:color var(--t-fast) var(--ease-out),transform .28s var(--ease-out);
 }
 .pc-live:hover{color:var(--text);transform:translate(2px,-2px);}
-body.light .pc-gh,.pc-live{color:#888;}
-body.light .pc-gh:hover,body.light .pc-live:hover{color:#141414;}
 
-
-  
 /* ── CONTACT ── */
 .ct-prompt{
   font-family:var(--fh);font-size:clamp(52px,7vw,115px);line-height:.88;
@@ -624,7 +636,6 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
 #music-btn svg{stroke:var(--text);}
 #music-btn.muted svg{opacity:.35;}
 
-/* Music sound wave animation (plays when music is on) */
 #music-btn .wave-bars{
   display:flex;align-items:center;gap:2px;
   position:absolute;bottom:6px;left:50%;transform:translateX(-50%);
@@ -666,18 +677,6 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
 .rvs.vis>*:nth-child(10){opacity:1;transform:none;transition-delay:.45s}
 .rvs.vis>*:nth-child(11){opacity:1;transform:none;transition-delay:.5s}
 .rvs.vis>*:nth-child(12){opacity:1;transform:none;transition-delay:.55s}
-.rvs.vis>*:nth-child(13){opacity:1;transform:none;transition-delay:.6s}
-.rvs.vis>*:nth-child(14){opacity:1;transform:none;transition-delay:.65s}
-.rvs.vis>*:nth-child(15){opacity:1;transform:none;transition-delay:.7s}
-.rvs.vis>*:nth-child(16){opacity:1;transform:none;transition-delay:.75s}
-.rvs.vis>*:nth-child(17){opacity:1;transform:none;transition-delay:.8s}
-.rvs.vis>*:nth-child(18){opacity:1;transform:none;transition-delay:.85s}
-.rvs.vis>*:nth-child(19){opacity:1;transform:none;transition-delay:.9s}
-.rvs.vis>*:nth-child(20){opacity:1;transform:none;transition-delay:.95s}
-.rvs.vis>*:nth-child(21){opacity:1;transform:none;transition-delay:1s}
-.rvs.vis>*:nth-child(22){opacity:1;transform:none;transition-delay:1.05s}
-.rvs.vis>*:nth-child(23){opacity:1;transform:none;transition-delay:1.1s}
-.rvs.vis>*:nth-child(24){opacity:1;transform:none;transition-delay:1.15s}
 
 /* ── RESPONSIVE ── */
 @media(max-width:960px){
@@ -687,7 +686,7 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
   #mode-bar{left:0;font-size:0;height:44px;}
   #mode-bar .desktop-hint{display:none}
   #mode-bar .mobile-hint{display:flex;align-items:center;gap:8px;font-size:9px;}
-  #spb{left:0;top:44px;}
+  #spb{top:40px;}
   #main{padding-top:44px}
   #hero{padding:80px 24px 48px;min-height:100svh;justify-content:flex-end;}
   .h-tl,.h-tr,.h-scroll{display:none}
@@ -701,15 +700,12 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
   .a-h{font-size:clamp(36px,8vw,60px);}
   .a-p{font-size:14px;}
   .pgrid{grid-template-columns:repeat(2,1fr);gap:12px;}
-  .logo-grid{gap:8px;}
-  .logo-item{width:80px;height:80px;}
   .ct-prompt{font-size:clamp(40px,9vw,90px);padding-bottom:36px;}
   .ct-grid{grid-template-columns:1fr;gap:28px;margin-bottom:36px;}
   .ct-body{font-size:11px;line-height:2;}
   .social-grid{grid-template-columns:repeat(2,1fr);}
   #go-top{bottom:20px;right:16px;}
   #music-btn{bottom:72px;right:16px;}
-  .mode-notif{top:52px;}
 }
 
 @media(max-width:480px){
@@ -725,10 +721,6 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
   .pgrid{grid-template-columns:1fr;gap:10px;}
   .pc-desc{-webkit-line-clamp:4;}
   .pc-name{font-size:19px;}
-  .logo-grid{gap:7px;}
-  .logo-item{width:70px;height:70px;}
-  .logo-icon{width:24px;height:24px;}
-  .logo-name{font-size:7px;letter-spacing:.06em;}
   .ct-prompt{font-size:clamp(34px,10vw,60px);padding-bottom:28px;}
   .ct-body{font-size:10.5px;padding:16px 14px;}
   .ct-bar{padding:8px 14px;}
@@ -736,70 +728,66 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
   .s-name{font-size:20px;}
   .c-foot{flex-direction:column;gap:6px;align-items:flex-start;}
   #mode-bar{height:40px;}
-  #spb{top:40px;}
 }
 
 @media(max-width:360px){
   section{padding:44px 16px;}
   #hero{padding:64px 16px 36px;}
-  .logo-item{width:62px;height:62px;}
-  .logo-icon{width:22px;height:22px;}
   .ct-prompt{font-size:clamp(28px,10vw,48px);}
   .social-grid{grid-template-columns:1fr;}
+}
+
+#spb-side {
+  position: fixed;
+  left: var(--nav-w);
+  top: 0;
+  width: 2px;
+  height: 0%;
+  z-index: 99999;
+  background: rgba(0,0,0,.4);
+  transition: height .08s linear;
+}
+body:not(.light) #spb-side {
+  background: rgba(255,255,255,.5);
+}
+@media(max-width:960px){
+  #spb-side { left: 0; }
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════
-    BACKGROUND MUSIC
-    ↓↓↓ CHANGE "your-music.mp3" TO YOUR ACTUAL FILE NAME ↓↓↓
-    Put your .mp3 file in the SAME FOLDER as this HTML file,
-    then replace "your-music.mp3" below with your file's name.
-    Example: if your file is called "lofi.mp3" → src="lofi.mp3"
-    You can also use a full URL: src="https://example.com/song.mp3"
-═══════════════════════════════════════════════════════ -->
 <audio id="bg-music" loop preload="auto">
   <source src="portfolio 02.mp3" type="audio/mpeg">
 </audio>
 
 <canvas id="rain" aria-hidden="true"></canvas>
 <div id="cur" aria-hidden="true"><div class="cv"></div><div class="ch"></div><div class="cc"></div></div>
-<div id="spb" role="progressbar" aria-label="Page scroll progress"></div>
 
-<div id="mode-bar" aria-hidden="true">
-  <span class="desktop-hint">type</span><kbd class="desktop-hint">dark</kbd><span class="desktop-hint">or</span><kbd class="desktop-hint">light</kbd><span class="desktop-hint">to switch theme</span>
-  <span class="mobile-hint">tap</span><kbd class="mobile-hint" id="m-theme-hint" style="pointer-events:auto;cursor:pointer;" onclick="toggleTheme()">HERE</kbd><span class="mobile-hint">to switch</span>
-</div>
+<div id="spb-side"></div>
 <div id="mode-notif" role="status" aria-live="polite"></div>
 
-<!-- SCROLL TO TOP BUTTON -->
 <button id="go-top" aria-label="Go to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
 
-<!-- MUSIC TOGGLE BUTTON -->
 <button id="music-btn" aria-label="Play background music" title="Toggle music">
-  <!-- Music note icon (shown when playing) -->
   <svg id="music-icon-on" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
     <path d="M9 18V5l12-2v13"/>
     <circle cx="6" cy="18" r="3"/>
     <circle cx="18" cy="16" r="3"/>
   </svg>
-  <!-- Muted icon (shown when paused) -->
   <svg id="music-icon-off" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
     <path d="M9 18V5l12-2v13"/>
     <circle cx="6" cy="18" r="3"/>
     <circle cx="18" cy="16" r="3"/>
     <line x1="1" y1="1" x2="23" y2="23"/>
   </svg>
-  <!-- Tiny animated wave bars at the bottom of the button -->
   <div class="wave-bars" aria-hidden="true">
     <span></span><span></span><span></span>
   </div>
 </button>
 
-<!-- DESKTOP NAV -->
 <nav id="nav" aria-label="Main navigation">
   <div class="nav-logo" title="Toggle theme" role="button" aria-label="Toggle theme" onclick="toggleTheme()" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleTheme()">
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -830,12 +818,10 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
   </div>
 </nav>
 
-<!-- MOBILE NAV TOGGLE -->
 <button id="m-toggle" aria-label="Toggle navigation" aria-expanded="false">
   <span></span><span></span><span></span>
 </button>
 
-<!-- MOBILE NAV OVERLAY -->
 <nav id="m-nav" aria-label="Mobile navigation">
   <div onclick="toggleTheme()" style="position:absolute;top:20px;left:20px;opacity:.35;cursor:pointer;padding:6px;border-radius:4px;transition:opacity .18s;" onmouseenter="this.style.opacity='.7'" onmouseleave="this.style.opacity='.35'" title="Toggle theme">
     <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
@@ -856,7 +842,6 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
 
 <main id="main">
 
-<!-- HERO -->
 <section id="hero">
   <canvas id="hc" aria-hidden="true"></canvas>
   <div class="h-grad"></div>
@@ -873,7 +858,6 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
   <div class="h-scroll" aria-hidden="true">Scroll</div>
 </section>
 
-<!-- TICKER -->
 <div class="ticker" aria-hidden="true">
   <div class="t-track">
     <span>Hello</span><span class="sep">·</span><span>Hola</span><span class="sep">·</span><span>Bonjour</span><span class="sep">·</span><span>Ciao</span><span class="sep">·</span><span>Hallo</span><span class="sep">·</span><span>こんにちは</span><span class="sep">·</span><span>你好</span><span class="sep">·</span><span>Merhaba</span><span class="sep">·</span><span>Привет</span><span class="sep">·</span><span>নমস্কার</span><span class="sep">·</span><span>Olá</span><span class="sep">·</span><span>안녕하세요</span><span class="sep">·</span><span>Aloha</span><span class="sep">·</span><span>Salaam</span><span class="sep">·</span><span>שלום</span><span class="sep">·</span><span>Sawubona</span><span class="sep">·</span>
@@ -881,7 +865,6 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
   </div>
 </div>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="s-lbl">about</div>
   <div class="about-grid rv">
@@ -899,7 +882,6 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects">
   <div class="s-lbl">projects</div>
   <div class="pgrid rvs">
@@ -916,7 +898,7 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
       <div class="pc-num">01</div>
       <div class="pc-name">Setanel</div>
       <div class="pc-meta">Anti-Piracy SDK · EdTech · 2024</div>
-      <p class="pc-desc">Video DRM and forensic watermarking SDK for EdTech platforms across South Asia. HLS stream encryption, account-sharing detection, admin analytics dashboard. Live on npm as <code style="font-size:11px">setanel-sdk@1.0.0</code>.</p>
+      <p class="pc-desc">Video DRM + forensic watermarking SDK for EdTech. HLS encryption, account-sharing detection, analytics. <code style="font-size:11px">setanel-sdk@1.0.0</code>.</p>
       <div class="pc-tags">
         <span class="pc-tag">JS</span><span class="pc-tag">HLS.js</span><span class="pc-tag">Supabase</span><span class="pc-tag">npm</span>
       </div>
@@ -943,7 +925,7 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
       <div class="pc-num">02</div>
       <div class="pc-name">Content Portfolio</div>
       <div class="pc-meta">Web Design · Client Tool · 2024</div>
-      <p class="pc-desc">A clean, client-facing portfolio template for content creators — zero dependencies, no frameworks, just refined HTML and CSS. Designed to let work speak for itself without the overhead.</p>
+      <p class="pc-desc">Zero-dependency portfolio template for content creators. Pure HTML and CSS.</p>
       <div class="pc-tags">
         <span class="pc-tag">HTML</span><span class="pc-tag">CSS</span><span class="pc-tag">Vanilla JS</span>
       </div>
@@ -966,7 +948,7 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
       <div class="pc-num">03</div>
       <div class="pc-name">Valentine Site</div>
       <div class="pc-meta">Creative Web · Interactive · 2024</div>
-      <p class="pc-desc">An animated, interactive Valentine's Day web experience built with pure CSS animations and vanilla JS. Every micro-interaction considered. A reminder that the web can be genuinely delightful.</p>
+      <p class="pc-desc">Animated, interactive Valentine's web experience. Pure CSS animations and vanilla JS.</p>
       <div class="pc-tags">
         <span class="pc-tag">CSS</span><span class="pc-tag">Animation</span><span class="pc-tag">Creative</span>
       </div>
@@ -991,7 +973,7 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
       <div class="pc-num">04</div>
       <div class="pc-name">Frontend Experiments</div>
       <div class="pc-meta">Creative Dev · Collection · 2023–24</div>
-      <p class="pc-desc">An ongoing collection of personal web experiments — some silly, some serious, all honest. The record of a developer finding their style by building things that had no reason to exist except curiosity.</p>
+      <p class="pc-desc">Ongoing collection of personal web experiments. Curiosity-driven, no reason to exist.</p>
       <div class="pc-tags">
         <span class="pc-tag">HTML</span><span class="pc-tag">CSS</span><span class="pc-tag">JS</span>
       </div>
@@ -1016,7 +998,7 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
       <div class="pc-num">05</div>
       <div class="pc-name">Job Tracker</div>
       <div class="pc-meta">Desktop App · Java · 2023</div>
-      <p class="pc-desc">A desktop job application tracker built in Java during 3rd semester. An honest milestone: the moment a student starts caring about solving actual problems, not just passing the assignment.</p>
+      <p class="pc-desc">Desktop job tracker built in Java — 3rd semester. Solving real problems, not just assignments.</p>
       <div class="pc-tags">
         <span class="pc-tag">Java</span><span class="pc-tag">Desktop</span>
       </div>
@@ -1039,7 +1021,7 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
       <div class="pc-num">06</div>
       <div class="pc-name">GitHub Customization</div>
       <div class="pc-meta">Open Source · Profile Tools · 2024</div>
-      <p class="pc-desc">A curated fork of the comprehensive GitHub profile beautification guide. Custom README badges, stats widgets, and layout techniques — a living reference for developers who care about their presence.</p>
+      <p class="pc-desc">Curated fork of GitHub profile beautification guide. Badges, stats widgets, layout techniques.</p>
       <div class="pc-tags">
         <span class="pc-tag">OSS</span><span class="pc-tag">Fork</span>
       </div>
@@ -1055,8 +1037,6 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
   </div>
 </section>
 
-
-<!-- CONTACT -->
 <section id="contact">
   <div class="s-lbl">contact</div>
   <div class="ct-prompt" id="ct-prompt" aria-label="Let's build something.">
@@ -1082,7 +1062,7 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
     </div>
     <div style="display:flex;flex-direction:column;justify-content:center;gap:16px;">
       <p style="font-family:var(--fb);font-size:14.5px;line-height:1.88;color:var(--body);">Whether it's a project idea, a collaboration, a freelance job, or just a conversation — I'm reachable. I respond to everything.</p>
-      <a href="https://mail.google.com/mail/?view=cm&to=jahidulislam01018940@gmail.com&su=Hey%20Zahid%20%E2%80%94%20Let%27s%20connect" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text);text-decoration:none;padding:9px 14px;border:1px solid var(--line-hi);border-radius:2px;width:fit-content;transition:background .16s,border-color .18s;">Send an email ↗</a>
+      <a href="https://mail.google.com/mail/?view=cm&to=jahidulislam01018940@gmail.com&su=Hey%20Zahid%20%E2%80%94%20Let%27s%20connect" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text);text-decoration:none;padding:9px 14px;border:1px solid var(--line-hi);border-radius:2px;width:fit-content;transition:background .18s,border-color .22s,transform .22s;" onmouseenter="const l=document.body.classList.contains('light');this.style.background=l?'rgba(0,0,0,0.06)':'rgba(255,255,255,0.06)';this.style.borderColor=l?'rgba(0,0,0,0.35)':'rgba(255,255,255,0.4)';this.style.transform='translate(2px,-2px)'" onmouseleave="this.style.background='';this.style.borderColor='';this.style.transform=''">Send an email ↗</a>
     </div>
   </div>
   <div class="social-grid rv">
@@ -1103,7 +1083,10 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
 <script>
 'use strict';
 
-/* ══════════════════ TOUCH DEVICE DETECTION ══════════════════ */
+/* ══ INIT ══ */
+document.body.classList.add('light');
+
+/* ══ TOUCH DETECTION ══ */
 const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 if (isTouch) {
   document.body.classList.add('touch-device');
@@ -1111,7 +1094,7 @@ if (isTouch) {
   document.getElementById('cur').style.display = 'block';
 }
 
-/* ══════════════════ THEME TOGGLE ══════════════════ */
+/* ══ THEME TOGGLE ══ */
 function toggleTheme(){
   const isLight = document.body.classList.toggle('light');
   if (window._updateGlobeTheme) window._updateGlobeTheme();
@@ -1121,9 +1104,9 @@ function toggleTheme(){
   setTimeout(() => notif.classList.remove('show'), 2000);
 }
 
-/* ══════════════════════════════════════════════════════
-   ASCII RAIN + CANVAS SPLASH
-══════════════════════════════════════════════════════ */
+/* ══ ASCII RAIN + SPLASH ══
+   FIX: Changed splash title font from Syne 800 to JetBrains Mono Bold
+   for consistent terminal/monospace identity throughout */
 (function(){
   const c = document.getElementById('rain');
   const ctx = c.getContext('2d');
@@ -1148,16 +1131,19 @@ function toggleTheme(){
   window.addEventListener('resize', () => { resize(); initDrops(); recompute(); }, {passive:true});
 
   const TITLE = 'ZAHID';
+  /* FIX: Use JetBrains Mono Bold — matches the terminal aesthetic of the whole site */
+  const TITLE_FONT = '700 ';
+  const TITLE_FF   = '"JetBrains Mono", monospace';
   let titleFS, titleY, letterRects;
   let layoutReady = false;
 
   function recompute(){
-    titleFS = Math.max(72, Math.min(Math.floor(W * 0.13), 128));
+    titleFS = Math.max(64, Math.min(Math.floor(W * 0.11), 112));
     titleY  = Math.floor(H * 0.47);
     ctx.save();
-    ctx.font = `800 ${titleFS}px "Syne", sans-serif`;
+    ctx.font = `${TITLE_FONT}${titleFS}px ${TITLE_FF}`;
     ctx.textBaseline = 'alphabetic';
-    const spacing = titleFS * 0.045;
+    const spacing = titleFS * 0.06;
     let totalW = 0;
     const widths = [];
     for (const ch of TITLE){
@@ -1236,7 +1222,7 @@ function toggleTheme(){
       for (let j = 0; j < TITLE.length; j++){
         const a = revealState[j];
         if (a > 0){
-          ctx.font = `800 ${titleFS}px "Syne", sans-serif`;
+          ctx.font = `${TITLE_FONT}${titleFS}px ${TITLE_FF}`;
           ctx.fillStyle = `rgba(255,255,255,${a * 0.92})`;
           ctx.fillText(letterRects[j].ch, letterRects[j].x, titleY);
         }
@@ -1263,7 +1249,7 @@ function toggleTheme(){
   }
 
   Promise.all([
-    document.fonts.load('800 100px "Syne"'),
+    document.fonts.load(`700 100px "JetBrains Mono"`),
     document.fonts.load('400 13px "JetBrains Mono"')
   ]).then(() => {
     recompute();
@@ -1277,7 +1263,7 @@ function toggleTheme(){
   }, 1500);
 })();
 
-/* ══════════════════ CURSOR ══════════════════ */
+/* ══ CURSOR ══ */
 if (!isTouch) {
   const cur = document.getElementById('cur');
   let mx = window.innerWidth / 2, my = window.innerHeight / 2;
@@ -1298,7 +1284,7 @@ if (!isTouch) {
   });
 }
 
-/* ══════════════════ CLOCK ══════════════════ */
+/* ══ CLOCK ══ */
 const clk = document.getElementById('clk');
 function tick(){
   const d = new Date(), z = n => String(n).padStart(2,'0');
@@ -1306,8 +1292,7 @@ function tick(){
 }
 setInterval(tick, 1000); tick();
 
-/* ══════════════════ SCROLL PROGRESS + GO TO TOP ══════════════════ */
-const spb   = document.getElementById('spb');
+/* ══ SCROLL PROGRESS + GO TOP ══ */
 const goTop = document.getElementById('go-top');
 let scrollRAF = false;
 window.addEventListener('scroll', () => {
@@ -1316,13 +1301,13 @@ window.addEventListener('scroll', () => {
   requestAnimationFrame(() => {
     const scrollable = document.documentElement.scrollHeight - innerHeight;
     const p = scrollable > 0 ? (scrollY / scrollable * 100) : 0;
-    spb.style.width = p + '%';
+    document.getElementById('spb-side').style.height = p + '%';
     goTop.classList.toggle('vis', scrollY > 400);
     scrollRAF = false;
   });
 }, {passive:true});
 
-/* ══════════════════ DESKTOP NAV ══════════════════ */
+/* ══ DESKTOP NAV ══ */
 const secs = [...document.querySelectorAll('section[id]')];
 const nbs  = [...document.querySelectorAll('.nb')];
 const modeBarH = () => parseInt(getComputedStyle(document.getElementById('mode-bar')).height) || 28;
@@ -1346,7 +1331,7 @@ const ioNav = new IntersectionObserver(entries => {
 }, {rootMargin:'-42% 0px -42% 0px'});
 secs.forEach(s => ioNav.observe(s));
 
-/* ══════════════════ MOBILE NAV ══════════════════ */
+/* ══ MOBILE NAV ══ */
 const mToggle = document.getElementById('m-toggle');
 const mNav    = document.getElementById('m-nav');
 mToggle.addEventListener('click', () => {
@@ -1378,13 +1363,13 @@ document.querySelectorAll('.m-nb').forEach(b => {
   });
 });
 
-/* ══════════════════ SCROLL REVEAL ══════════════════ */
+/* ══ SCROLL REVEAL ══ */
 const ro = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
 }, {threshold:0.06});
 document.querySelectorAll('.rv,.rvs').forEach(el => ro.observe(el));
 
-/* ══════════════════ CONTACT PROMPT ══════════════════ */
+/* ══ CONTACT PROMPT ══ */
 const ctPrompt = document.getElementById('ct-prompt');
 const ctpObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
@@ -1393,7 +1378,7 @@ const ctpObs = new IntersectionObserver(entries => {
 }, {threshold:0.15});
 ctpObs.observe(ctPrompt);
 
-/* ══════════════════ HERO DECODE TYPING ══════════════════ */
+/* ══ HERO DECODE TYPING ══ */
 (function(){
   const target  = document.getElementById('h-type');
   const text    = 'yo, have a look around the portfolio.';
@@ -1416,7 +1401,7 @@ ctpObs.observe(ctPrompt);
   setTimeout(startType, 5000);
 })();
 
-/* ══════════════════ ABOUT TERMINAL TYPING ══════════════════ */
+/* ══ ABOUT TERMINAL TYPING ══ */
 (function(){
   const el = document.getElementById('term-about');
   const P = `<span class="t-usr">zahid</span><span class="t-at">@</span><span class="t-host">dhaka</span><span class="t-sep">:</span><span class="t-path">~/portfolio</span><span class="t-sep">$ </span>`;
@@ -1486,7 +1471,7 @@ ctpObs.observe(ctPrompt);
   obs.observe(el);
 })();
 
-/* ══════════════════ SCRAMBLE EFFECT ══════════════════ */
+/* ══ SCRAMBLE ON HOVER ══ */
 (function(){
   const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*?/|\\';
   function scramble(el){
@@ -1519,7 +1504,7 @@ ctpObs.observe(ctPrompt);
   });
 })();
 
-/* ══════════════════ CONTACT TYPEWRITER CYCLE ══════════════════ */
+/* ══ CONTACT PROMPT CYCLE ══ */
 (function(){
   const el = document.getElementById('ct-prompt');
   if (!el) return;
@@ -1581,7 +1566,7 @@ ctpObs.observe(ctPrompt);
   obs.observe(el);
 })();
 
-/* ══════════════════ KEYBOARD THEME TOGGLE ══════════════════ */
+/* ══ KEYBOARD THEME TOGGLE ══ */
 let modeBuf = '';
 document.addEventListener('keydown', e => {
   if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -1606,7 +1591,7 @@ document.addEventListener('keydown', e => {
   }
 });
 
-/* ══════════════════ BACKGROUND MUSIC ══════════════════ */
+/* ══ BACKGROUND MUSIC ══ */
 (function(){
   const audio   = document.getElementById('bg-music');
   const btn     = document.getElementById('music-btn');
@@ -1614,7 +1599,7 @@ document.addEventListener('keydown', e => {
   const iconOff = document.getElementById('music-icon-off');
   let   playing = false;
 
-  audio.volume = 0.25; // ← adjust volume here: 0.0 (silent) to 1.0 (full)
+  audio.volume = 0.25;
 
   function setPlaying(val){
     playing = val;
@@ -1633,17 +1618,13 @@ document.addEventListener('keydown', e => {
     }
   }
 
-  // Click to toggle
   btn.addEventListener('click', () => setPlaying(!playing));
 
-  // Show button after splash finishes
   window.addEventListener('splashDone', () => {
     setTimeout(() => btn.classList.add('vis'), 600);
   }, {once:true});
-  // Hard fallback if splash event never fired
   setTimeout(() => btn.classList.add('vis'), 6000);
 
-  // Autoplay on first user interaction (browsers block autoplay without this)
   function tryAutoplay(){
     if(!playing) setPlaying(true);
     document.removeEventListener('click',      tryAutoplay);
@@ -1655,7 +1636,11 @@ document.addEventListener('keydown', e => {
   document.addEventListener('touchstart', tryAutoplay, {once:true, passive:true});
 })();
 
-/* ══════════════════ THREE.JS GLOBE ══════════════════ */
+/* ══════════════════════════════════════════════════════
+   GLOBE v3 — Lat/lon grid + orbital rings + atmosphere
+   glow + floating data particles + arc connections
+   + scanning sweep + HUD readout sprites
+   ══════════════════════════════════════════════════════ */
 (function(){
   const canvas = document.getElementById('hc');
   const hero   = document.getElementById('hero');
@@ -1675,179 +1660,513 @@ document.addEventListener('keydown', e => {
   window.addEventListener('resize', onHeroResize, {passive:true});
 
   const scene = new THREE.Scene();
-  const cam   = new THREE.PerspectiveCamera(36, W()/H(), .1, 100);
-  cam.position.set(0, 0.15, 7.2);
+  const cam   = new THREE.PerspectiveCamera(34, W()/H(), .1, 100);
+  cam.position.set(0, 0.2, 6.8);
   cam.lookAt(0, 0, 0);
 
-  const globe = new THREE.Group();
+  /* ── Root groups ── */
+  const globe    = new THREE.Group(); // rotates with globe
+  const staticGp = new THREE.Group(); // stays fixed in world space
   scene.add(globe);
+  scene.add(staticGp);
 
-  const _trackedLineMats = [];
-  let   _wireframeMat, _dhaka1Mat, _dhaka2Mat;
+  const R = 1.7;
 
-  function _isDark(){ return !document.body.classList.contains('light'); }
-  function _lineColor(){ return _isDark() ? 0xffffff : 0x404040; }
+  /* ── Color helpers ── */
+  function isDark(){ return !document.body.classList.contains('light'); }
 
-  window._updateGlobeTheme = function(){
-    const col = _lineColor();
-    _trackedLineMats.forEach(m => { m.color.setHex(col); m.needsUpdate = true; });
-    if (_wireframeMat){
-      _wireframeMat.color.setHex(_isDark() ? 0xffffff : 0x555555);
-      _wireframeMat.opacity = _isDark() ? .15 : .3;
-      _wireframeMat.needsUpdate = true;
+  let _currentGridColor    = new THREE.Color();
+  let _currentEquatorColor = new THREE.Color();
+  function getGridColor(){
+    return isDark() ? new THREE.Color(0.92,0.92,0.92) : new THREE.Color(0.15,0.15,0.15);
+  }
+  function getEquatorColor(){
+    return isDark() ? new THREE.Color(1,1,1) : new THREE.Color(0.10,0.10,0.10);
+  }
+
+  /* ── All theme-aware materials collected here ── */
+  const themeMats = []; // {mat, type:'grid'|'equator'|'ring'|'particle'|'arc'|'sweep'}
+
+  function mkLineMat(type, opacity){
+    const col = type === 'equator' ? getEquatorColor() : getGridColor();
+    const m = new THREE.LineBasicMaterial({color:col.clone(), transparent:true, opacity});
+    themeMats.push({mat:m, type});
+    return m;
+  }
+
+  /* ════════════════════════════════════════
+     1. LAT / LON GRID
+  ════════════════════════════════════════ */
+  const gridLines = [];
+
+  const latitudes = [-75,-60,-45,-30,-15,0,15,30,45,60,75];
+  latitudes.forEach(latDeg => {
+    const lat = latDeg * Math.PI/180;
+    const r   = R * Math.cos(lat);
+    const y   = R * Math.sin(lat);
+    const segs = 96;
+    const pts = [];
+    for(let i=0;i<=segs;i++){
+      const a=(i/segs)*Math.PI*2;
+      pts.push(new THREE.Vector3(Math.cos(a)*r, y, Math.sin(a)*r));
     }
-    if (_dhaka1Mat){ _dhaka1Mat.color.setHex(_isDark() ? 0xffffff : 0x222222); _dhaka1Mat.needsUpdate = true; }
-    if (_dhaka2Mat){ _dhaka2Mat.color.setHex(_isDark() ? 0xffffff : 0x222222); _dhaka2Mat.needsUpdate = true; }
-  };
+    const isEquator = latDeg===0;
+    const op = isEquator ? 0.5 : Math.abs(latDeg)===15||Math.abs(latDeg)===30 ? 0.22 : 0.11;
+    const mat = mkLineMat(isEquator?'equator':'grid', op);
+    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat);
+    globe.add(line);
+    gridLines.push({mat, isEquator});
+  });
 
-  function lm(op){
-    const mat = new THREE.LineBasicMaterial({color: _lineColor(), transparent:true, opacity:op});
-    _trackedLineMats.push(mat);
+  const longitudes = [0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345];
+  longitudes.forEach((lonDeg,idx) => {
+    const lon = lonDeg * Math.PI/180;
+    const segs = 72;
+    const pts = [];
+    for(let i=0;i<=segs;i++){
+      const a=(i/segs)*Math.PI - Math.PI/2;
+      pts.push(new THREE.Vector3(
+        Math.cos(a)*Math.cos(lon)*R,
+        Math.sin(a)*R,
+        Math.cos(a)*Math.sin(lon)*R
+      ));
+    }
+    const isPrime = lonDeg%30===0;
+    const op = isPrime ? 0.18 : 0.07;
+    const mat = mkLineMat('grid', op);
+    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat);
+    globe.add(line);
+    gridLines.push({mat, isEquator:false});
+  });
+
+  /* ════════════════════════════════════════
+     2. ATMOSPHERE GLOW (billboard sprite)
+  ════════════════════════════════════════ */
+  function makeAtmoTex(){
+    const cv=document.createElement('canvas'); cv.width=cv.height=512;
+    const x=cv.getContext('2d');
+    const g=x.createRadialGradient(256,256,160,256,256,256);
+    g.addColorStop(0,'rgba(255,255,255,0)');
+    g.addColorStop(0.72,'rgba(255,255,255,0)');
+    g.addColorStop(0.84,isDark()?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.05)');
+    g.addColorStop(1,'rgba(255,255,255,0)');
+    x.fillStyle=g; x.fillRect(0,0,512,512);
+    return new THREE.CanvasTexture(cv);
+  }
+  let atmoTex = makeAtmoTex();
+  const atmoMat = new THREE.SpriteMaterial({map:atmoTex, transparent:true, depthWrite:false, opacity:1});
+  const atmoSprite = new THREE.Sprite(atmoMat);
+  atmoSprite.scale.set(4.1,4.1,1);
+  scene.add(atmoSprite); // world-space so it doesn't rotate
+
+  /* ════════════════════════════════════════
+     3. ORBITAL RINGS (world-space, independent rotation)
+  ════════════════════════════════════════ */
+  function makeRing(radius, tiltX, tiltZ, op, dashed){
+    const segs = dashed ? 120 : 180;
+    const pts = [];
+    for(let i=0;i<=segs;i++){
+      const skip = dashed && (i%8 < 3);
+      if(!skip){
+        const a=(i/segs)*Math.PI*2;
+        pts.push(new THREE.Vector3(Math.cos(a)*radius, 0, Math.sin(a)*radius));
+      } else {
+        if(pts.length){ /* gap — push degenerate */ }
+      }
+    }
+    // build as continuous line with gaps via separate segments
+    const allPts = [];
+    for(let i=0;i<=segs;i++){
+      const a=(i/segs)*Math.PI*2;
+      allPts.push(new THREE.Vector3(Math.cos(a)*radius, 0, Math.sin(a)*radius));
+    }
+    const mat = new THREE.LineBasicMaterial({
+      color: getGridColor().clone(), transparent:true, opacity:op
+    });
+    themeMats.push({mat, type:'ring'});
+    const grp = new THREE.Group();
+    grp.rotation.x = tiltX;
+    grp.rotation.z = tiltZ;
+    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(allPts), mat);
+    grp.add(line);
+    scene.add(grp);
+    return grp;
+  }
+
+  const ring1 = makeRing(2.55, Math.PI/2.2,  Math.PI/7,  0.28, false); // equatorial-ish
+  const ring2 = makeRing(2.85, Math.PI/3.5, -Math.PI/5,  0.16, true);  // tilted dashed
+  const ring3 = makeRing(3.2,  Math.PI/1.7,  Math.PI/3,  0.10, true);  // outer dashed
+
+  /* Tick marks on ring1 */
+  (function(){
+    const r=2.55, N=36;
+    const grp=new THREE.Group();
+    grp.rotation.x=ring1.rotation.x; grp.rotation.z=ring1.rotation.z;
+    for(let i=0;i<N;i++){
+      const a=(i/N)*Math.PI*2;
+      const isMaj = i%6===0;
+      const len   = isMaj ? 0.10 : 0.05;
+      const op    = isMaj ? 0.45 : 0.18;
+      const pts=[
+        new THREE.Vector3(Math.cos(a)*r, 0, Math.sin(a)*r),
+        new THREE.Vector3(Math.cos(a)*(r+len), 0, Math.sin(a)*(r+len))
+      ];
+      const mat = new THREE.LineBasicMaterial({color:getGridColor().clone(), transparent:true, opacity:op});
+      themeMats.push({mat, type:'ring'});
+      grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat));
+    }
+    scene.add(grp);
+  })();
+
+  /* Moving traveller dot on ring2 */
+  const travDotGeo = new THREE.CircleGeometry(0.022, 10);
+  const travDotMat = new THREE.MeshBasicMaterial({color:0xffffff, transparent:true, opacity:0.7, side:THREE.DoubleSide, depthWrite:false});
+  const travDotMesh = new THREE.Mesh(travDotGeo, travDotMat);
+  ring2.add(travDotMesh);
+  themeMats.push({mat:travDotMat, type:'ring'});
+
+  /* ════════════════════════════════════════
+     4. DHAKA MARKER
+  ════════════════════════════════════════ */
+  const dhLat = 23.8103 * Math.PI/180;
+  const dhLon = 90.4125 * Math.PI/180;
+  const dhPos = new THREE.Vector3(
+    R * Math.cos(dhLat)*Math.sin(dhLon),
+    R * Math.sin(dhLat),
+    R * Math.cos(dhLat)*Math.cos(dhLon)
+  );
+
+  /* Three concentric halos */
+  const halos = [];
+  [0.13, 0.09, 0.055].forEach((outer,i) => {
+    const geo = new THREE.RingGeometry(outer*0.6, outer, 40);
+    const mat = new THREE.MeshBasicMaterial({color:0xffffff, transparent:true, opacity:[0.12,0.20,0.35][i], side:THREE.DoubleSide, depthWrite:false});
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.copy(dhPos);
+    mesh.lookAt(dhPos.clone().multiplyScalar(2));
+    globe.add(mesh);
+    halos.push({mesh, mat, baseOp:[0.12,0.20,0.35][i], scale:[2.2,1.6,1.1][i]});
+    themeMats.push({mat, type:'particle'});
+  });
+
+  /* Dot */
+  const dotGeo = new THREE.CircleGeometry(0.03, 20);
+  const dotMat = new THREE.MeshBasicMaterial({color:0xffffff, transparent:true, opacity:0.95, side:THREE.DoubleSide, depthWrite:false});
+  const dotMesh = new THREE.Mesh(dotGeo, dotMat);
+  dotMesh.position.copy(dhPos);
+  dotMesh.lookAt(dhPos.clone().multiplyScalar(2));
+  globe.add(dotMesh);
+  themeMats.push({mat:dotMat, type:'particle'});
+
+  /* Vertical beacon line from dot outward */
+  const beaconPts = [
+    dhPos.clone(),
+    dhPos.clone().normalize().multiplyScalar(R + 0.55)
+  ];
+  const beaconMat = new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:0.18});
+  globe.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(beaconPts), beaconMat));
+  themeMats.push({mat:beaconMat, type:'particle'});
+
+  /* Coordinate label */
+  function makeLabelTexture(){
+    const cv=document.createElement('canvas'); cv.width=320; cv.height=56;
+    const x=cv.getContext('2d');
+    x.clearRect(0,0,320,56);
+    const fg = isDark()?'rgba(255,255,255,0.72)':'rgba(0,0,0,0.55)';
+    const dim= isDark()?'rgba(255,255,255,0.38)':'rgba(0,0,0,0.28)';
+    x.font='700 16px "JetBrains Mono",monospace';
+    x.fillStyle=fg; x.fillText('DHAKA',0,18);
+    x.font='500 14px "JetBrains Mono",monospace';
+    x.fillStyle=dim; x.fillText('23.81°N  90.41°E',0,38);
+    return new THREE.CanvasTexture(cv);
+  }
+  let labelTex=makeLabelTexture();
+  const labelMat=new THREE.SpriteMaterial({map:labelTex, transparent:true, depthWrite:false, opacity:0});
+  const labelSprite=new THREE.Sprite(labelMat);
+  const lp=dhPos.clone().normalize().multiplyScalar(R+0.28);
+  lp.x+=0.22; lp.y+=0.18;
+  labelSprite.position.copy(lp);
+  labelSprite.scale.set(0.9,0.18,1);
+  globe.add(labelSprite);
+
+  /* ════════════════════════════════════════
+     5. OTHER CITY DOTS (Tokyo, London, NYC, Sydney)
+  ════════════════════════════════════════ */
+  const cities = [
+    {lat:35.68, lon:139.69, name:'TYO'},  // Tokyo
+    {lat:51.51, lon:-0.13,  name:'LDN'},  // London
+    {lat:40.71, lon:-74.01, name:'NYC'},  // New York
+    {lat:-33.87,lon:151.21, name:'SYD'},  // Sydney
+  ];
+  const cityMats = [];
+  cities.forEach(c => {
+    const lat=c.lat*Math.PI/180, lon=c.lon*Math.PI/180;
+    const pos=new THREE.Vector3(R*Math.cos(lat)*Math.sin(lon), R*Math.sin(lat), R*Math.cos(lat)*Math.cos(lon));
+    const geo=new THREE.CircleGeometry(0.018,12);
+    const mat=new THREE.MeshBasicMaterial({color:0xffffff, transparent:true, opacity:0.35, side:THREE.DoubleSide, depthWrite:false});
+    const mesh=new THREE.Mesh(geo,mat);
+    mesh.position.copy(pos);
+    mesh.lookAt(pos.clone().multiplyScalar(2));
+    globe.add(mesh);
+    cityMats.push(mat);
+    themeMats.push({mat, type:'particle'});
+  });
+
+  /* ════════════════════════════════════════
+     6. ARC CONNECTIONS (Dhaka → cities, drawn on globe surface)
+  ════════════════════════════════════════ */
+  function makeArc(posA, posB, lift, op){
+    const segs=48;
+    const pts=[];
+    for(let i=0;i<=segs;i++){
+      const s=i/segs;
+      const v=new THREE.Vector3().lerpVectors(posA, posB, s);
+      // bulge outward at midpoint
+      const bulge=Math.sin(s*Math.PI)*lift;
+      v.normalize().multiplyScalar(R+bulge);
+      pts.push(v);
+    }
+    const mat=new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:op});
+    themeMats.push({mat, type:'arc'});
+    const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat);
+    globe.add(line);
     return mat;
   }
 
-  _wireframeMat = new THREE.MeshBasicMaterial({color: _lineColor(), wireframe:true, transparent:true, opacity:.15});
-  globe.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.65, 1), _wireframeMat));
+  const arcMats=[];
+  cities.forEach(c=>{
+    const lat=c.lat*Math.PI/180, lon=c.lon*Math.PI/180;
+    const pos=new THREE.Vector3(R*Math.cos(lat)*Math.sin(lon), R*Math.sin(lat), R*Math.cos(lat)*Math.cos(lon));
+    arcMats.push(makeArc(dhPos, pos, 0.3, 0.10));
+  });
 
-  const lat = 23.8 * Math.PI/180, lon = 90.4 * Math.PI/180, R = 1.65;
-  const dhX = R*Math.cos(lat)*Math.sin(lon);
-  const dhY = R*Math.sin(lat);
-  const dhZ = R*Math.cos(lat)*Math.cos(lon);
+  /* ════════════════════════════════════════
+     7. FLOATING PARTICLES (world-space, drifting slowly)
+  ════════════════════════════════════════ */
+  const PARTICLE_COUNT = 80;
+  const pPositions = new Float32Array(PARTICLE_COUNT*3);
+  const pSpeeds    = [];
+  for(let i=0;i<PARTICLE_COUNT;i++){
+    // random points on a shell between R*1.4 and R*2.2
+    const theta=Math.random()*Math.PI*2;
+    const phi=Math.acos(2*Math.random()-1);
+    const r=R*1.4 + Math.random()*R*0.8;
+    pPositions[i*3+0]=r*Math.sin(phi)*Math.cos(theta);
+    pPositions[i*3+1]=r*Math.sin(phi)*Math.sin(theta);
+    pPositions[i*3+2]=r*Math.cos(phi);
+    pSpeeds.push({
+      dtheta:(Math.random()-0.5)*0.001,
+      dphi:(Math.random()-0.5)*0.0008,
+      theta, phi, r
+    });
+  }
+  const pGeo=new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+  const pMat=new THREE.PointsMaterial({color:0xffffff, size:0.022, transparent:true, opacity:isDark()?0.35:0.18, sizeAttenuation:true, depthWrite:false});
+  themeMats.push({mat:pMat, type:'particle'});
+  const particles=new THREE.Points(pGeo, pMat);
+  staticGp.add(particles);
 
-  function makeStar(sz, op){
-    const cv = document.createElement('canvas'); cv.width = 40; cv.height = 40;
-    const x = cv.getContext('2d');
-    x.fillStyle = `rgba(255,255,255,${op})`;
-    x.beginPath();
-    const N=4,outr=14,inr=4,cx2=20,cy2=20;
-    for (let i=0;i<N*2;i++){
-      const r=i%2===0?outr:inr;
-      const a=(i/(N*2))*Math.PI*2-Math.PI/2;
-      i===0?x.moveTo(cx2+r*Math.cos(a),cy2+r*Math.sin(a)):x.lineTo(cx2+r*Math.cos(a),cy2+r*Math.sin(a));
-    }
-    x.closePath(); x.fill();
+  /* ════════════════════════════════════════
+     8. SCANNING SWEEP LINE (world-space)
+        A single bright meridian that rotates independently
+  ════════════════════════════════════════ */
+  const sweepGrp=new THREE.Group();
+  sweepGrp.rotation.x=Math.PI/2.5;
+  scene.add(sweepGrp);
+
+  const sweepPts=[];
+  const segs2=64;
+  for(let i=0;i<=segs2;i++){
+    const a=(i/segs2)*Math.PI*2;
+    sweepPts.push(new THREE.Vector3(Math.cos(a)*2.0, 0, Math.sin(a)*2.0));
+  }
+  const sweepMat=new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:0.0});
+  themeMats.push({mat:sweepMat, type:'ring'});
+  sweepGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(sweepPts), sweepMat));
+
+  /* A bright short arc that is the "sweep head" */
+  const headPts=[];
+  for(let i=0;i<=20;i++){
+    const a=(i/20)*0.55; // ~31° arc
+    headPts.push(new THREE.Vector3(Math.cos(a)*2.0, 0, Math.sin(a)*2.0));
+  }
+  const headMat=new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:isDark()?0.45:0.25});
+  themeMats.push({mat:headMat, type:'ring'});
+  sweepGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(headPts), headMat));
+
+  /* ════════════════════════════════════════
+     9. HUD READOUT SPRITES (corner data, world-space)
+  ════════════════════════════════════════ */
+  function makeHudTex(lines, w, h){
+    const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+    const x=cv.getContext('2d');
+    x.clearRect(0,0,w,h);
+    const fg=isDark()?'rgba(255,255,255,0.5)':'rgba(0,0,0,0.38)';
+    x.font='500 13px "JetBrains Mono",monospace';
+    x.fillStyle=fg;
+    lines.forEach((ln,i)=>x.fillText(ln,0,16+i*18));
     return new THREE.CanvasTexture(cv);
   }
 
-  _dhaka1Mat = new THREE.SpriteMaterial({map:makeStar(40,1),transparent:true,depthWrite:false});
-  const dhakaStar = new THREE.Sprite(_dhaka1Mat);
-  dhakaStar.scale.set(.14,.14,1); dhakaStar.position.set(dhX,dhY,dhZ); globe.add(dhakaStar);
+  const hud1Lines=['// stack.json','js · python · java','supabase · hls.js'];
+  let hud1Tex=makeHudTex(hud1Lines,240,72);
+  const hud1Mat=new THREE.SpriteMaterial({map:hud1Tex, transparent:true, depthWrite:false, opacity:0});
+  const hud1=new THREE.Sprite(hud1Mat);
+  hud1.position.set(-3.1, 1.4, 0);
+  hud1.scale.set(1.6,0.48,1);
+  scene.add(hud1);
 
-  _dhaka2Mat = new THREE.SpriteMaterial({map:makeStar(40,.25),transparent:true,depthWrite:false});
-  const dhakaPing = new THREE.Sprite(_dhaka2Mat);
-  dhakaPing.scale.set(.14,.14,1); dhakaPing.position.set(dhX,dhY,dhZ); globe.add(dhakaPing);
+  const hud2Lines=['// status','open to collab','→ npm published'];
+  let hud2Tex=makeHudTex(hud2Lines,240,72);
+  const hud2Mat=new THREE.SpriteMaterial({map:hud2Tex, transparent:true, depthWrite:false, opacity:0});
+  const hud2=new THREE.Sprite(hud2Mat);
+  hud2.position.set(2.9, -1.5, 0);
+  hud2.scale.set(1.5,0.45,1);
+  scene.add(hud2);
 
-  function circle(r,segs,op){
-    const pts=[];
-    for(let i=0;i<=segs;i++){const a=(i/segs)*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(a)*r,Math.sin(a)*r,0));}
-    return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),lm(op));
-  }
-  function arc(r,a0,a1,segs,op){
-    const pts=[];
-    for(let i=0;i<=segs;i++){const a=a0+(a1-a0)*(i/segs);pts.push(new THREE.Vector3(Math.cos(a)*r,Math.sin(a)*r,0));}
-    return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),lm(op));
-  }
+  /* ════════════════════════════════════════
+     THEME UPDATE
+  ════════════════════════════════════════ */
+  let themeTransitionStart=null;
+  let themeFrom={grid:new THREE.Color(),equator:new THREE.Color()};
+  let themeTo={grid:new THREE.Color(),equator:new THREE.Color()};
+  let inThemeTransition=false;
 
-  const compGroup=new THREE.Group();
-  compGroup.rotation.x=Math.PI/2.4; compGroup.rotation.z=Math.PI/8;
-  compGroup.add(circle(2.8,80,.1));
-  for(let i=0;i<32;i++){
-    const a=(i/32)*Math.PI*2;
-    const tickLen=i%8===0?.18:i%4===0?.1:.05;
-    const op=i%8===0?.28:i%4===0?.16:.08;
-    const geo=new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(Math.cos(a)*2.8,Math.sin(a)*2.8,0),
-      new THREE.Vector3(Math.cos(a)*(2.8-tickLen),Math.sin(a)*(2.8-tickLen),0)
-    ]);
-    compGroup.add(new THREE.Line(geo,lm(op)));
-  }
-  scene.add(compGroup);
+  _currentGridColor.copy(getGridColor());
+  _currentEquatorColor.copy(getEquatorColor());
 
-  const arc1Group=new THREE.Group();
-  arc1Group.rotation.x=-Math.PI/4; arc1Group.rotation.z=Math.PI/6;
-  arc1Group.add(arc(2.3,0,Math.PI*1.6,56,.22));
-  const arrowPts=[
-    new THREE.Vector3(2.3*Math.cos(Math.PI*1.6)-.12,2.3*Math.sin(Math.PI*1.6),0),
-    new THREE.Vector3(2.3*Math.cos(Math.PI*1.6),2.3*Math.sin(Math.PI*1.6),0),
-    new THREE.Vector3(2.3*Math.cos(Math.PI*1.6)+.05,2.3*Math.sin(Math.PI*1.6)-.12,0)
-  ];
-  arc1Group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(arrowPts),lm(.22)));
-  scene.add(arc1Group);
+  window._updateGlobeTheme=function(){
+    themeFrom.grid.copy(_currentGridColor);
+    themeFrom.equator.copy(_currentEquatorColor);
+    themeTo.grid.copy(getGridColor());
+    themeTo.equator.copy(getEquatorColor());
+    themeTransitionStart=performance.now();
+    inThemeTransition=true;
 
-  const arc2Group=new THREE.Group();
-  arc2Group.rotation.x=Math.PI/3; arc2Group.rotation.y=Math.PI/5;
-  arc2Group.add(arc(2.5,Math.PI*.3,Math.PI*1.2,40,.14));
-  scene.add(arc2Group);
+    // refresh canvas textures
+    labelTex.dispose(); labelTex=makeLabelTexture();
+    labelMat.map=labelTex; labelMat.needsUpdate=true;
+    atmoTex.dispose(); atmoTex=makeAtmoTex();
+    atmoMat.map=atmoTex; atmoMat.needsUpdate=true;
+    hud1Tex.dispose(); hud1Tex=makeHudTex(hud1Lines,240,72);
+    hud1Mat.map=hud1Tex; hud1Mat.needsUpdate=true;
+    hud2Tex.dispose(); hud2Tex=makeHudTex(hud2Lines,240,72);
+    hud2Mat.map=hud2Tex; hud2Mat.needsUpdate=true;
 
-  const meridGroup=new THREE.Group();
-  meridGroup.add(arc(2.0,0,Math.PI*2,60,.08));
-  scene.add(meridGroup);
+    const c=isDark()?0xffffff:0x141414;
+    dotMat.color.setHex(c);
+    beaconMat.color.setHex(c);
+    headMat.opacity=isDark()?0.45:0.25;
+    pMat.opacity=isDark()?0.35:0.18;
+  };
 
-  function bracket(sz,gap,op){
-    const g=new THREE.Group();
-    const corners=[
-      [[-sz,gap],[-sz,sz],[-gap,sz]],
-      [[gap,sz],[sz,sz],[sz,gap]],
-      [[sz,-gap],[sz,-sz],[gap,-sz]],
-      [[-gap,-sz],[-sz,-sz],[-sz,-gap]]
-    ];
-    corners.forEach(pts=>{
-      g.add(new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints(pts.map(([x,y])=>new THREE.Vector3(x,y,0))),
-        lm(op)
-      ));
-    });
-    return g;
-  }
-  scene.add(bracket(2.2,1.75,.3));
-
-  function cross(pos,sz,op){
-    const g=new THREE.Group();
-    g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-sz,0,0),new THREE.Vector3(sz,0,0)]),lm(op)));
-    g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,-sz,0),new THREE.Vector3(0,sz,0)]),lm(op)));
-    g.position.copy(pos); return g;
-  }
-  [[2.6,0,0],[-2.6,0,0],[0,2.6,0],[0,-2.6,0],[0,0,2.6],[0,0,-2.6]].forEach(([x,y,z])=>{
-    scene.add(cross(new THREE.Vector3(x,y,z),.08,.18));
-  });
-
-  const sweepGroup=new THREE.Group();
-  sweepGroup.add(arc(2.1,0,Math.PI*.35,18,.3));
-  scene.add(sweepGroup);
-
+  /* ════════════════════════════════════════
+     PARALLAX
+  ════════════════════════════════════════ */
   let tX=0,tY=0,cX=0,cY=0;
   document.addEventListener('mousemove',e=>{
     const r=hero.getBoundingClientRect();
-    tX=((e.clientX-r.left)/r.width-.5)*2.2;
-    tY=((e.clientY-r.top)/r.height-.5)*1.4;
+    tX=((e.clientX-r.left)/r.width -0.5)*0.6;
+    tY=((e.clientY-r.top) /r.height-0.5)*0.4;
   },{passive:true});
   document.addEventListener('touchmove',e=>{
     if(e.touches.length){
       const r=hero.getBoundingClientRect();
-      tX=((e.touches[0].clientX-r.left)/r.width-.5)*1.5;
-      tY=((e.touches[0].clientY-r.top)/r.height-.5)*1.0;
+      tX=((e.touches[0].clientX-r.left)/r.width -0.5)*0.4;
+      tY=((e.touches[0].clientY-r.top) /r.height-0.5)*0.28;
     }
   },{passive:true});
 
-  let t=0,blink=0;
-  window._updateGlobeTheme();
+  /* ════════════════════════════════════════
+     ANIMATION LOOP
+  ════════════════════════════════════════ */
+  let t=0, blink=0, labelOpacity=0, hudOpacity=0;
+  const THEME_FADE_MS=400;
+
   (function loop(){
     requestAnimationFrame(loop);
-    t+=.0018; blink+=.055;
-    cX+=(tX-cX)*.07; cY+=(tY-cY)*.07;
-    globe.rotation.y=t+cX*.55;
-    globe.rotation.x=cY*.32;
-    compGroup.rotation.y=t*.12;
-    arc1Group.rotation.y=t*.18;
-    arc2Group.rotation.z=t*.13;
-    meridGroup.rotation.y=t*.24;
-    sweepGroup.rotation.z=t*.22;
+    t+=0.0016; blink+=0.048;
 
-    const ping = Math.sin(blink) * .5 + .5;
-    dhakaPing.scale.setScalar(.14 + ping * .22);
-    if (_dhaka2Mat) _dhaka2Mat.opacity = .08 + ping * .18;
+    cX+=(tX-cX)*0.06; cY+=(tY-cY)*0.06;
+    globe.rotation.y = t + cX*0.7;
+    globe.rotation.x = cY*0.4;
 
-    renderer.render(scene, cam);
+    /* Independent ring rotations */
+    ring1.rotation.y = t*0.28;
+    ring2.rotation.y = -t*0.19;
+    ring3.rotation.y = t*0.11;
+
+    /* Sweep rotation */
+    sweepGrp.rotation.y = t*1.4;
+
+    /* Traveller on ring2 */
+    const travA = t*0.9;
+    travDotMesh.position.set(Math.cos(travA)*2.85, 0, Math.sin(travA)*2.85);
+    travDotMesh.lookAt(0,0,0);
+
+    /* Particle drift */
+    for(let i=0;i<PARTICLE_COUNT;i++){
+      const sp=pSpeeds[i];
+      sp.theta+=sp.dtheta; sp.phi+=sp.dphi;
+      pPositions[i*3+0]=sp.r*Math.sin(sp.phi)*Math.cos(sp.theta);
+      pPositions[i*3+1]=sp.r*Math.sin(sp.phi)*Math.sin(sp.theta);
+      pPositions[i*3+2]=sp.r*Math.cos(sp.phi);
+    }
+    pGeo.attributes.position.needsUpdate=true;
+
+    /* Theme interpolation */
+    if(inThemeTransition){
+      const el=performance.now()-themeTransitionStart;
+      const a=Math.min(el/THEME_FADE_MS,1);
+      const e2=a<0.5?2*a*a:-1+(4-2*a)*a;
+      _currentGridColor.lerpColors(themeFrom.grid,themeTo.grid,e2);
+      _currentEquatorColor.lerpColors(themeFrom.equator,themeTo.equator,e2);
+      if(a>=1) inThemeTransition=false;
+    }
+
+    /* Apply grid colors */
+    gridLines.forEach(({mat,isEquator})=>{
+      mat.color.copy(isEquator?_currentEquatorColor:_currentGridColor);
+      mat.needsUpdate=true;
+    });
+    /* Apply ring/arc colors */
+    themeMats.forEach(({mat,type})=>{
+      if(type==='ring'||type==='arc'){
+        if(mat.color) mat.color.copy(_currentGridColor);
+        mat.needsUpdate=true;
+      }
+    });
+
+    /* Dhaka halos pulse */
+    const ping=Math.sin(blink)*0.5+0.5;
+    halos.forEach(({mesh,mat,baseOp,scale},i)=>{
+      const s=1+(ping*(scale-1)*0.7);
+      mesh.scale.setScalar(s);
+      mat.opacity=baseOp*(0.6+ping*0.8);
+    });
+
+    /* Sweep fade */
+    sweepMat.opacity=(isDark()?0.06:0.03)*(0.6+Math.sin(t*3.1)*0.4);
+
+    /* City dot pulse (offset phase) */
+    cityMats.forEach((m,i)=>{
+      m.opacity=0.25+Math.sin(blink+i*1.3)*0.12;
+    });
+
+    /* Arc shimmer */
+    arcMats.forEach((m,i)=>{
+      m.opacity=0.06+Math.sin(blink*0.7+i*0.9)*0.05;
+    });
+
+    /* Fade labels and HUD in */
+    if(labelOpacity<1) labelOpacity=Math.min(labelOpacity+0.003,1);
+    labelMat.opacity=labelOpacity*(isDark()?0.72:0.52);
+    if(hudOpacity<1) hudOpacity=Math.min(hudOpacity+0.002,1);
+    hud1Mat.opacity=hudOpacity*(isDark()?0.55:0.35);
+    hud2Mat.opacity=hudOpacity*(isDark()?0.55:0.35);
+
+    renderer.render(scene,cam);
   })();
 })();
 </script>
