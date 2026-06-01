@@ -43,16 +43,7 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-body.light{
-  --bg:#f2f2f2;--surface:#e8e8e8;--text:#141414;--body:#424242;
-  --dim:#707070;--faint:#d0d0d0;
-  --line:rgba(0,0,0,.1);--line-hi:rgba(0,0,0,.22);
-  --hero-label:rgba(0,0,0,.45);
-  --hero-label-dim:rgba(0,0,0,.38);
-  --hero-accent:rgba(0,0,0,.55);
-  --hero-scroll:rgba(0,0,0,.32);
-  --hero-tag:rgba(0,0,0,.42);
-}
+
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
@@ -737,6 +728,140 @@ body.light #music-btn:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.
   .social-grid{grid-template-columns:1fr;}
 }
 
+/* ── MOBILE NAV REDESIGN ── */
+#m-nav {
+  padding: 0;
+  align-items: stretch;
+  justify-content: stretch;
+}
+.m-nav-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0 32px;
+  justify-content: space-between;
+}
+.m-nav-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: max(48px, env(safe-area-inset-top, 48px));
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.m-nav-logo {
+  font-family: var(--fh);
+  font-size: 32px;
+  color: rgba(255,255,255,.9);
+  letter-spacing: .04em;
+}
+.m-nav-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+}
+.m-nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: bwpulse 2.4s ease-in-out infinite;
+}
+.m-nav-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  padding: 8px 0;
+}
+/* Override old .m-nb with new layout */
+.m-nb {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  font-family: var(--ff);
+  font-size: inherit;
+  color: rgba(255,255,255,.25);
+  text-decoration: none;
+  transform: none;
+  transition: color .18s var(--ease), background .18s;
+  border-radius: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.m-nb:first-child { border-top: 1px solid rgba(255,255,255,.06); }
+.m-nb:hover, .m-nb.on {
+  color: rgba(255,255,255,.9);
+  transform: none;
+  background: rgba(255,255,255,.03);
+}
+.m-nb-num {
+  font-size: 9px;
+  letter-spacing: .18em;
+  color: rgba(255,255,255,.2);
+  width: 20px;
+  flex-shrink: 0;
+  transition: color .18s;
+}
+.m-nb.on .m-nb-num,
+.m-nb:hover .m-nb-num { color: rgba(255,255,255,.45); }
+.m-nb-label {
+  font-family: var(--fh);
+  font-size: clamp(30px, 7vw, 48px);
+  letter-spacing: .04em;
+  flex: 1;
+  line-height: 1;
+}
+.m-nb-arr {
+  font-size: 16px;
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: opacity .18s, transform .22s var(--ease);
+}
+.m-nb:hover .m-nb-arr, .m-nb.on .m-nb-arr {
+  opacity: .5;
+  transform: translate(0, 0);
+}
+.m-nav-foot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0;
+  padding-bottom: max(28px, env(safe-area-inset-bottom, 28px));
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.m-nav-social {
+  font-size: 9px;
+  letter-spacing: .2em;
+  color: rgba(255,255,255,.3);
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 2px;
+  transition: color .16s, border-color .16s, background .16s;
+}
+.m-nav-social:hover {
+  color: rgba(255,255,255,.8);
+  border-color: rgba(255,255,255,.3);
+  background: rgba(255,255,255,.05);
+}
+.m-nav-copy {
+  font-size: 9px;
+  letter-spacing: .14em;
+  color: rgba(255,255,255,.15);
+  margin-left: auto;
+}
+/* Remove old theme btn */
+#m-theme-btn { display: none; }
+
+
 #spb-side {
   position: fixed;
   left: var(--nav-w);
@@ -823,21 +948,24 @@ body:not(.light) #spb-side {
 </button>
 
 <nav id="m-nav" aria-label="Mobile navigation">
-  <div onclick="toggleTheme()" style="position:absolute;top:20px;left:20px;opacity:.35;cursor:pointer;padding:6px;border-radius:4px;transition:opacity .18s;" onmouseenter="this.style.opacity='.7'" onmouseleave="this.style.opacity='.35'" title="Toggle theme">
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-      <path d="M3 3 L9 3 M3 3 L3 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-      <path d="M23 3 L29 3 M29 3 L29 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-      <path d="M3 23 L3 29 M3 29 L9 29" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-      <path d="M29 23 L29 29 M23 29 L29 29" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-      <path d="M8.5 9.5 L23.5 9.5 L8.5 22.5 L23.5 22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+  <div class="m-nav-inner">
+    <div class="m-nav-top">
+      <span class="m-nav-logo">Z</span>
+      <div class="m-nav-status"><span class="m-nav-dot"></span>available</div>
+    </div>
+    <div class="m-nav-links">
+      <a class="m-nb" href="#hero"     data-s="hero"><span class="m-nb-num">01</span><span class="m-nb-label">Home</span><span class="m-nb-arr">↗</span></a>
+      <a class="m-nb" href="#about"    data-s="about"><span class="m-nb-num">02</span><span class="m-nb-label">About</span><span class="m-nb-arr">↗</span></a>
+      <a class="m-nb" href="#projects" data-s="projects"><span class="m-nb-num">03</span><span class="m-nb-label">Projects</span><span class="m-nb-arr">↗</span></a>
+      <a class="m-nb" href="#contact"  data-s="contact"><span class="m-nb-num">04</span><span class="m-nb-label">Contact</span><span class="m-nb-arr">↗</span></a>
+    </div>
+    <div class="m-nav-foot">
+      <a href="https://github.com/UnrealZahid101894" target="_blank" rel="noopener" class="m-nav-social">GH</a>
+      <a href="https://linkedin.com/in/jahidul-islam-672461333" target="_blank" rel="noopener" class="m-nav-social">LI</a>
+      <a href="https://instagram.com/unreal_zahid" target="_blank" rel="noopener" class="m-nav-social">IG</a>
+      <span class="m-nav-copy">zahid.dev · 2026</span>
+    </div>
   </div>
-  <a class="m-nb" href="#hero"     data-s="hero">Home</a>
-  <a class="m-nb" href="#about"    data-s="about">About</a>
-  <a class="m-nb" href="#projects" data-s="projects">Projects</a>
-  <a class="m-nb" href="#contact"  data-s="contact">Contact</a>
-  <button id="m-theme-btn" onclick="toggleTheme()">Toggle Theme</button>
-  <span style="position:absolute;bottom:28px;font-size:9px;letter-spacing:.2em;color:rgba(255,255,255,.2);">zahid.dev · 2026</span>
 </nav>
 
 <main id="main">
@@ -1083,8 +1211,7 @@ body:not(.light) #spb-side {
 <script>
 'use strict';
 
-/* ══ INIT ══ */
-document.body.classList.add('light');
+
 
 /* ══ TOUCH DETECTION ══ */
 const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
@@ -1094,14 +1221,10 @@ if (isTouch) {
   document.getElementById('cur').style.display = 'block';
 }
 
-/* ══ THEME TOGGLE ══ */
 function toggleTheme(){
-  const isLight = document.body.classList.toggle('light');
-  if (window._updateGlobeTheme) window._updateGlobeTheme();
-  const notif = document.getElementById('mode-notif');
-  notif.textContent = isLight ? '// light mode activated' : '// dark mode activated';
-  notif.classList.add('show');
-  setTimeout(() => notif.classList.remove('show'), 2000);
+  const n = document.getElementById('mode-notif');
+  n.textContent = '// dark mode only'; n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 2000);
 }
 
 /* ══ ASCII RAIN + SPLASH ══
@@ -2081,7 +2204,7 @@ document.addEventListener('keydown', e => {
   /* ════════════════════════════════════════
      ANIMATION LOOP
   ════════════════════════════════════════ */
-  let t=0, blink=0, labelOpacity=0, hudOpacity=0;
+  let t=0, blink=0, labelOpacity=1, hudOpacity=1;
   const THEME_FADE_MS=400;
 
   (function loop(){
