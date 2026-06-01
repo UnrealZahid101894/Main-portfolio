@@ -2009,7 +2009,7 @@ document.addEventListener('keydown', e => {
     return new THREE.CanvasTexture(cv);
   }
 
-  const hud1Lines=['// stack.json','js · python · java','supabase · hls.js'];
+  const hud1Lines=[];
   let hud1Tex=makeHudTex(hud1Lines,240,72);
   const hud1Mat=new THREE.SpriteMaterial({map:hud1Tex, transparent:true, depthWrite:false, opacity:0});
   const hud1=new THREE.Sprite(hud1Mat);
