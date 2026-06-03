@@ -386,6 +386,158 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
 .tl-blank{height:.7em;}
 
 
+/* ── EDUCATION ── */
+#education{overflow:hidden;}
+.edu-wrap{position:relative;}
+
+.edu-header{margin-bottom:48px;}
+.edu-meta{
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:12px;display:flex;align-items:center;gap:10px;
+}
+.edu-meta::before{content:'';width:18px;height:1px;background:var(--dim);opacity:.5;}
+.edu-degree{
+  font-family:var(--fh);font-size:clamp(36px,5.5vw,78px);
+  letter-spacing:.02em;color:var(--text);line-height:.93;margin-bottom:10px;
+}
+.edu-uni{font-family:var(--fb);font-size:14px;color:var(--dim);letter-spacing:.04em;margin-bottom:18px;}
+.edu-tags-row{display:flex;gap:6px;flex-wrap:wrap;}
+.edu-badge-item{
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);border:1px solid var(--line);
+  padding:5px 12px;border-radius:2px;
+  transition:border-color .22s,color .22s;
+}
+.edu-badge-item.active{
+  color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.3);
+  box-shadow:0 0 12px rgba(255,255,255,.04);
+}
+
+
+
+/* ── PIXEL PROGRESS BAR ── */
+.edu-progress-wrap{display:flex;flex-direction:column;gap:12px;margin-bottom:0;}
+.edu-progress-label{
+  display:flex;justify-content:space-between;
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);
+}
+#pixel-decay-bar{
+  width:100%;height:32px;display:block;
+  image-rendering:pixelated;
+}
+
+
+/* ── CERTIFICATIONS ── */
+#certifications{overflow:hidden;}
+
+.cert-soon-box{
+  width:100%;
+  min-height:260px;
+  border:1px solid var(--line);
+  border-radius:4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
+  position:relative;
+  overflow:hidden;
+  cursor:default;
+  transition:border-color .35s var(--ease-out),background .35s var(--ease-out);
+}
+.cert-soon-box:hover{
+  border-color:rgba(255,255,255,.22);
+  background:rgba(255,255,255,.04);
+}
+
+/* animated corner brackets */
+.cert-soon-box::before,.cert-soon-box::after{
+  content:'';position:absolute;
+  transition:all .45s var(--ease-out);
+}
+.cert-soon-box::before{
+  top:0;left:0;
+  width:16px;height:16px;
+  border-top:1px solid rgba(255,255,255,.5);
+  border-left:1px solid rgba(255,255,255,.5);
+}
+.cert-soon-box::after{
+  bottom:0;right:0;
+  width:16px;height:16px;
+  border-bottom:1px solid rgba(255,255,255,.5);
+  border-right:1px solid rgba(255,255,255,.5);
+}
+.cert-soon-box:hover::before{
+  width:100%;height:100%;
+  border-right:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.cert-soon-box:hover::after{
+  width:100%;height:100%;
+  border-left:1px solid rgba(255,255,255,.06);
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+/* scan line */
+.cert-scan-line{
+  position:absolute;
+  top:-100%;left:0;right:0;
+  height:100%;
+  background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.06) 50%,transparent 100%);
+  pointer-events:none;
+  transition:top .55s var(--ease-out);
+  z-index:0;
+}
+.cert-soon-box:hover .cert-scan-line{
+  top:100%;
+}
+
+.cert-soon-inner{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  gap:10px;padding:40px 32px;
+}
+.cert-soon-num{
+  font-family:var(--ff);font-size:9px;letter-spacing:.22em;
+  color:var(--dim);
+}
+.cert-soon-title{
+  font-family:var(--fh);font-size:clamp(36px,5vw,68px);
+  letter-spacing:.04em;color:rgba(255,255,255,.12);
+  transition:color .28s var(--ease-out);line-height:1;
+}
+.cert-soon-box:hover .cert-soon-title{
+  color:rgba(255,255,255,.25);
+}
+.cert-soon-status{
+  font-family:var(--ff);font-size:11px;letter-spacing:.14em;
+  color:var(--dim);font-style:italic;
+  display:flex;align-items:center;gap:8px;
+}
+.cert-soon-status::before{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--dim);animation:bwpulse 2.4s ease-in-out infinite;flex-shrink:0;
+}
+.cert-soon-sub{
+  font-family:var(--fb);font-size:12px;letter-spacing:.04em;
+  color:rgba(255,255,255,.2);
+}
+.cert-soon-tags{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  margin-top:6px;
+}
+.cert-tag{
+  font-family:var(--ff);font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim);
+  border:1px solid var(--line);padding:4px 12px;border-radius:2px;
+  transition:color .22s,border-color .22s;
+}
+.cert-soon-box:hover .cert-tag{
+  color:rgba(255,255,255,.45);
+  border-color:rgba(255,255,255,.2);
+}
+
+
 /* ── PROJECTS ── */
 #projects{overflow:visible;}
 .pgrid{
@@ -409,7 +561,8 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
 }
 .pcard::before{
   content:"";position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.08) 0%,transparent 70%);
+  background:transparent;
+  box-shadow:inset 0 0 28px rgba(255,255,255,.04);
   opacity:0;transition:opacity .45s var(--ease-out);pointer-events:none;
   border-radius:4px;
 }
@@ -1083,6 +1236,12 @@ body:not(.light) #spb-side {
     <a class="nb" href="#about"    data-s="about"    data-tip="About"    aria-label="Go to About">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </a>
+    <a class="nb" href="#education" data-s="education" data-tip="Education" aria-label="Go to Education">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+    </a>
+    <a class="nb" href="#certifications" data-s="certifications" data-tip="Certifications" aria-label="Go to Certifications">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+    </a>
     <a class="nb" href="#projects" data-s="projects" data-tip="Projects" aria-label="Go to Projects">
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
     </a>
@@ -1109,8 +1268,10 @@ body:not(.light) #spb-side {
     <div class="m-nav-links">
       <a class="m-nb" href="#hero"     data-s="hero"><span class="m-nb-num">01</span><span class="m-nb-label">Home</span><span class="m-nb-arr">↗</span></a>
       <a class="m-nb" href="#about"    data-s="about"><span class="m-nb-num">02</span><span class="m-nb-label">About</span><span class="m-nb-arr">↗</span></a>
-      <a class="m-nb" href="#projects" data-s="projects"><span class="m-nb-num">03</span><span class="m-nb-label">Projects</span><span class="m-nb-arr">↗</span></a>
-      <a class="m-nb" href="#contact"  data-s="contact"><span class="m-nb-num">04</span><span class="m-nb-label">Contact</span><span class="m-nb-arr">↗</span></a>
+      <a class="m-nb" href="#education" data-s="education"><span class="m-nb-num">03</span><span class="m-nb-label">Education</span><span class="m-nb-arr">↗</span></a>
+      <a class="m-nb" href="#certifications" data-s="certifications"><span class="m-nb-num">04</span><span class="m-nb-label">Certifications</span><span class="m-nb-arr">↗</span></a>
+      <a class="m-nb" href="#projects" data-s="projects"><span class="m-nb-num">05</span><span class="m-nb-label">Projects</span><span class="m-nb-arr">↗</span></a>
+      <a class="m-nb" href="#contact"  data-s="contact"><span class="m-nb-num">06</span><span class="m-nb-label">Contact</span><span class="m-nb-arr">↗</span></a>
     </div>
     <div class="m-nav-foot">
       <a href="https://github.com/UnrealZahid101894" target="_blank" rel="noopener" class="m-nav-social">GH</a>
@@ -1175,6 +1336,54 @@ body:not(.light) #spb-side {
     </div>
   </div>
 </section>
+
+
+<section id="education">
+  <div class="s-lbl">education</div>
+  <div class="edu-wrap rv">
+    <div class="edu-header">
+      <div class="edu-meta">2025 — 2029 · Dhaka, Bangladesh</div>
+      <div class="edu-degree">B.Sc. in Computer<br>Science & Engineering</div>
+      <div class="edu-uni">East West University</div>
+      <div class="edu-tags-row">
+        <span class="edu-badge-item active">Semester 5 of 12</span>
+        <span class="edu-badge-item active">CGPA 3.50</span>
+        <span class="edu-badge-item active">Active</span>
+      </div>
+    </div>
+
+    <!-- DEGREE PROGRESS BAR -->
+    <div class="edu-progress-wrap">
+      <div class="edu-progress-label">
+        <span>degree progress</span>
+        <span>5 / 12 semesters</span>
+      </div>
+      <canvas id="pixel-decay-bar"></canvas>
+    </div>
+
+    
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="s-lbl">certifications</div>
+  <div class="cert-soon-box rv">
+    <div class="cert-scan-line"></div>
+    <div class="cert-soon-inner">
+      <span class="cert-soon-num">—</span>
+      <span class="cert-soon-title">CERTIFICATIONS</span>
+      <span class="cert-soon-status">// in progress — coming soon <span class="term-cursor"></span></span>
+      <span class="cert-soon-sub">actively pursuing industry certifications · check back later</span>
+      <div class="cert-soon-tags">
+        <span class="cert-tag">AWS</span>
+        <span class="cert-tag">Google Cloud</span>
+        <span class="cert-tag">Meta</span>
+        <span class="cert-tag">Coursera</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section id="projects">
   <div class="s-lbl">projects</div>
@@ -1757,6 +1966,94 @@ document.querySelectorAll('.m-nb').forEach(b => {
     }
   });
 });
+
+
+/* ══ PIXEL PROGRESS BAR ══ */
+(function(){
+  const canvas = document.getElementById('pixel-decay-bar');
+  if(!canvas) return;
+  const TOTAL = 12, DONE = 5;
+  const PX = 6, GAP = 2;
+  let drawn = false;
+
+  function draw(){
+    const W = canvas.parentElement.clientWidth;
+    const H = 32;
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,W,H);
+
+    const cols = Math.floor(W / (PX + GAP));
+    const filledCols = Math.round((DONE / TOTAL) * cols);
+
+    for(let col = 0; col < cols; col++){
+      const x = col * (PX + GAP);
+      const rows = Math.floor(H / (PX + GAP));
+      for(let row = 0; row < rows; row++){
+        const y = row * (PX + GAP);
+        if(col < filledCols){
+          const op = 0.55 + Math.random() * 0.4;
+          ctx.fillStyle = `rgba(255,255,255,${op})`;
+          ctx.fillRect(x, y, PX, PX);
+        } else if(col === filledCols){
+          ctx.fillStyle = `rgba(255,255,255,0.9)`;
+          ctx.shadowColor = 'rgba(255,255,255,1)';
+          ctx.shadowBlur = 8;
+          ctx.fillRect(x, y, PX, PX);
+          ctx.shadowBlur = 0;
+        } else {
+          ctx.fillStyle = `rgba(255,255,255,0.04)`;
+          ctx.fillRect(x, y, PX, PX);
+        }
+      }
+    }
+
+    // full bar outline
+    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(0.5, 0.5, W - 1, H - 1);
+  }
+
+  function flicker(){
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cols = Math.floor(W / (PX + GAP));
+    const filledCols = Math.round((DONE / TOTAL) * cols);
+    const rows = Math.floor(H / (PX + GAP));
+    for(let col = 0; col < filledCols; col++){
+      const x = col * (PX + GAP);
+      for(let row = 0; row < rows; row++){
+        const y = row * (PX + GAP);
+        if(Math.random() < 0.28){
+          const on = Math.random() > 0.15;
+          if(on){
+            ctx.fillStyle = `rgba(255,255,255,${0.45 + Math.random()*0.5})`;
+            ctx.fillRect(x, y, PX, PX);
+          } else {
+            ctx.fillStyle = `rgba(8,8,8,1)`;
+            ctx.fillRect(x, y, PX, PX);
+          }
+        }
+      }
+    }
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting && !drawn){
+        drawn = true; obs.disconnect();
+        draw();
+        setInterval(flicker, 90);
+      }
+    });
+  }, {threshold: 0.3});
+  obs.observe(canvas);
+
+  window.addEventListener('resize', () => { if(drawn) draw(); }, {passive:true});
+})();
+
+
 
 /* ══ SCROLL REVEAL ══ */
 const ro = new IntersectionObserver(entries => {
