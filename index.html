@@ -557,7 +557,6 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
   cursor:default;will-change:transform;
   z-index:1;
   overflow:visible;
-  transform-style:preserve-3d;
 }
 .pcard::before{
   content:"";position:absolute;inset:0;
@@ -892,8 +891,11 @@ body:not(.touch-device) * { cursor: none !important; }
   .ct-grid{grid-template-columns:1fr;gap:28px;margin-bottom:36px;}
   .ct-body{font-size:11px;line-height:2;}
   .social-grid{grid-template-columns:repeat(2,1fr);}
-  #go-top{bottom:20px;right:16px;}
+#go-top{bottom:20px;right:16px;}
   #music-btn{bottom:72px;right:16px;}
+  .pcard{transform:none!important;box-shadow:none!important;will-change:auto;}
+  .pcard:hover{background:var(--surface);border-color:var(--line);}
+  .pcard::after{display:none;}
 }
 
 @media(max-width:480px){
