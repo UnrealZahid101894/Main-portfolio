@@ -290,7 +290,7 @@ body.m-open #m-nav{opacity:1;pointer-events:auto;visibility:visible;}
 /* ── SECTIONS ── */
 section{padding:96px 72px;position:relative;scroll-margin-top:28px;}
 .s-lbl{
-  display:flex;align-items:center;gap:14px;font-size:9px;letter-spacing:.32em;
+  display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.32em;
   text-transform:uppercase;color:var(--dim);margin-bottom:64px;
 }
 .s-lbl::after{content:"";flex:1;height:1px;background:var(--line);}
@@ -306,7 +306,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
 }
 .a-h em{font-style:normal;color:var(--dim);}
 .a-p{
-  font-family:var(--fb);font-size:15px;line-height:1.9;color:var(--body);
+  font-family:var(--fb);font-size:16px;line-height:1.9;color:var(--body);
   letter-spacing:-.01em;
 }
 .a-p+.a-p{margin-top:14px;}
@@ -329,7 +329,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
 .term-sep{color:rgba(255,255,255,.18);font-size:10.5px;}
 .term-path{color:rgba(255,255,255,.38);font-size:10.5px;letter-spacing:.04em;}
 .term-cmd{color:rgba(255,255,255,.28);font-size:10.5px;letter-spacing:.04em;margin-left:2px;}
-.term-body{padding:22px 18px;font-size:11.5px;line-height:2.1;min-height:280px;overflow:hidden;}
+.term-body{padding:22px 18px;font-size:13px;line-height:2.1;min-height:280px;overflow:hidden;}
 
 /* prompt prefix — very dim */
 .t-usr{color:rgba(255,255,255,.28);}
@@ -392,7 +392,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
 
 .edu-header{margin-bottom:48px;}
 .edu-meta{
-  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
   color:var(--dim);margin-bottom:12px;display:flex;align-items:center;gap:10px;
 }
 .edu-meta::before{content:'';width:18px;height:1px;background:var(--dim);opacity:.5;}
@@ -400,10 +400,10 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
   font-family:var(--fh);font-size:clamp(36px,5.5vw,78px);
   letter-spacing:.02em;color:var(--text);line-height:.93;margin-bottom:10px;
 }
-.edu-uni{font-family:var(--fb);font-size:14px;color:var(--dim);letter-spacing:.04em;margin-bottom:18px;}
+.edu-uni{font-family:var(--fb);font-size:15px;color:var(--dim);letter-spacing:.04em;margin-bottom:18px;}
 .edu-tags-row{display:flex;gap:6px;flex-wrap:wrap;}
 .edu-badge-item{
-  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--dim);border:1px solid var(--line);
   padding:5px 12px;border-radius:2px;
   transition:border-color .22s,color .22s;
@@ -419,7 +419,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
 .edu-progress-wrap{display:flex;flex-direction:column;gap:12px;margin-bottom:0;}
 .edu-progress-label{
   display:flex;justify-content:space-between;
-  font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);
 }
 #pixel-decay-bar{
   width:100%;height:32px;display:block;
@@ -498,7 +498,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
   gap:10px;padding:40px 32px;
 }
 .cert-soon-num{
-  font-family:var(--ff);font-size:9px;letter-spacing:.22em;
+  font-family:var(--ff);font-size:11px;letter-spacing:.22em;
   color:var(--dim);
 }
 .cert-soon-title{
@@ -510,7 +510,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
   color:rgba(255,255,255,.25);
 }
 .cert-soon-status{
-  font-family:var(--ff);font-size:11px;letter-spacing:.14em;
+  font-family:var(--ff);font-size:13px;letter-spacing:.14em;
   color:var(--dim);font-style:italic;
   display:flex;align-items:center;gap:8px;
 }
@@ -519,7 +519,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
   background:var(--dim);animation:bwpulse 2.4s ease-in-out infinite;flex-shrink:0;
 }
 .cert-soon-sub{
-  font-family:var(--fb);font-size:12px;letter-spacing:.04em;
+  font-family:var(--fb);font-size:14px;letter-spacing:.04em;
   color:rgba(255,255,255,.2);
 }
 .cert-soon-tags{
@@ -527,7 +527,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
   margin-top:6px;
 }
 .cert-tag{
-  font-family:var(--ff);font-size:9px;letter-spacing:.14em;
+  font-family:var(--ff);font-size:10px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--dim);
   border:1px solid var(--line);padding:4px 12px;border-radius:2px;
   transition:color .22s,border-color .22s;
@@ -593,7 +593,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
   flex-shrink:0;line-height:1;padding:2px;
 }
 .pc-ext:hover,.pcard:hover .pc-ext{color:var(--text);transform:translate(2px,-2px);}
-.pc-num{font-size:8.5px;color:var(--dim);letter-spacing:.12em;margin-bottom:3px;}
+.pc-num{font-size:10px;color:var(--dim);letter-spacing:.12em;margin-bottom:3px;}
 .pc-name{
   font-family:var(--fh);font-size:21px;letter-spacing:.04em;
   color:var(--text);line-height:1;margin-bottom:6px;
@@ -602,11 +602,11 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
 .pcard:hover .pc-name{text-shadow:0 0 20px rgba(255,255,255,.25);}
 
 .pc-meta{
-  font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--dim);margin-bottom:10px;
 }
 .pc-desc{
-  font-family:var(--fb);font-size:12.5px;line-height:1.76;color:var(--body);
+  font-family:var(--fb);font-size:14px;line-height:1.76;color:var(--body);
   margin-bottom:14px;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
 }
@@ -624,7 +624,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
 }
 .pc-gh{
   display:inline-flex;align-items:center;gap:6px;
-  font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   color:rgba(255,255,255,.55);text-decoration:none;
   border:1px solid rgba(255,255,255,.15);
   padding:6px 12px;border-radius:2px;
@@ -640,7 +640,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
 }
 .pc-live{
   display:inline-flex;align-items:center;gap:4px;
-  font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   color:rgba(255,255,255,.55);text-decoration:none;margin-left:auto;
   border:1px solid rgba(255,255,255,.15);
   padding:6px 12px;border-radius:2px;
@@ -678,7 +678,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
   padding:9px 16px;display:flex;align-items:center;gap:1px;
   font-family:var(--ff);
 }
-.ct-body{padding:20px 18px;font-size:11.5px;line-height:2.1;}
+.ct-body{padding:20px 18px;font-size:13px;line-height:2.1;}
 .ct-p{color:rgba(255,255,255,.28);font-style:italic;}
 .ct-c{color:rgba(255,255,255,.8);text-shadow:0 0 8px rgba(255,255,255,.2);}
 .ct-v{color:rgba(255,255,255,.65);}
@@ -747,7 +747,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
   top:100%;
 }
 /* remove old pseudo effects */
-.s-idx{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);transition:color var(--t-mid);}
+.s-idx{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);transition:color var(--t-mid);}
 .s-name{
   font-family:var(--fh);font-size:24px;letter-spacing:.03em;
   color:rgba(255,255,255,.45);transition:color var(--t-mid) var(--ease-out);
@@ -757,7 +757,7 @@ section a,section button{position:relative;z-index:10;pointer-events:auto;}
   text-shadow:0 0 18px rgba(255,255,255,.6);
 }
 .s-handle{
-  font-size:10px;color:var(--dim);
+  font-size:12px;color:var(--dim);
   transition:color var(--t-mid) var(--ease-out);
 }
 .s-link:hover .s-handle{color:rgba(255,255,255,.5);}
@@ -889,9 +889,9 @@ body:not(.touch-device) * { cursor: none !important; }
   .pgrid{grid-template-columns:repeat(2,1fr);gap:12px;}
   .ct-prompt{font-size:clamp(40px,9vw,90px);padding-bottom:36px;}
   .ct-grid{grid-template-columns:1fr;gap:28px;margin-bottom:36px;}
-  .ct-body{font-size:11px;line-height:2;}
+  .ct-body{font-size:13px;line-height:2;}
   .social-grid{grid-template-columns:repeat(2,1fr);}
-#go-top{bottom:20px;right:16px;}
+  #go-top{bottom:20px;right:16px;}
   #music-btn{bottom:72px;right:16px;}
   .pcard{transform:none!important;box-shadow:none!important;will-change:auto;}
   .pcard:hover{background:var(--surface);border-color:var(--line);}
@@ -912,7 +912,7 @@ body:not(.touch-device) * { cursor: none !important; }
   .pc-desc{-webkit-line-clamp:4;}
   .pc-name{font-size:19px;}
   .ct-prompt{font-size:clamp(34px,10vw,60px);padding-bottom:28px;}
-  .ct-body{font-size:10.5px;padding:16px 14px;}
+  .ct-body{font-size:12px;padding:16px 14px;}
   .ct-bar{padding:8px 14px;}
   .social-grid{grid-template-columns:repeat(2,1fr);}
   .s-name{font-size:20px;}
@@ -1566,7 +1566,7 @@ body:not(.light) #spb-side {
 </div>
     </div>
     <div style="display:flex;flex-direction:column;justify-content:center;gap:16px;">
-      <p style="font-family:var(--fb);font-size:14.5px;line-height:1.88;color:var(--body);">Whether it's a project idea, a collaboration, a freelance job, or just a conversation — I'm reachable. I respond to everything.</p>
+      <p style="font-family:var(--fb);font-size:16px;line-height:1.88;color:var(--body);">Whether it's a project idea, a collaboration, a freelance job, or just a conversation — I'm reachable. I respond to everything.</p>
       <a href="mailto:jahidulislam01018940@gmail.com" target="_blank" rel="noopener noreferrer" class="email-btn">
   <div class="btn-scan"></div>
   <div class="btn-label">
@@ -2011,10 +2011,7 @@ document.querySelectorAll('.m-nb').forEach(b => {
       }
     }
 
-    // full bar outline
-    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(0.5, 0.5, W - 1, H - 1);
+    
   }
 
   function flicker(){
