@@ -1,5 +1,3 @@
-<div align="center">
-
 # zahid.dev
 
 **[unrealzahid.dev →](https://main-portfolio-eight-iota.vercel.app/)**
@@ -8,34 +6,31 @@ single-file portfolio. no framework, no build step, no bundler.
 
 `HTML` `CSS` `JS` `Three.js r128`
 
-</div>
-
 ---
 
 ## features
 
-| | |
-|---|---|
-| **Splash** | ASCII rain → letter-by-letter `ZAHID` reveal |
-| **Globe** | Three.js wireframe globe, Dhaka marker, mouse-tracked rotation |
-| **Terminals** | Live-typed bash terminal (About) + JS object terminal (Contact), syntax highlighted |
-| **Project cards** | Character-scramble title on hover |
-| **Contact headline** | 4 phrases, per-character scramble-dissolve, every 3.5s |
-| **Cursor** | Custom crosshair, zero-lag, compositor-threaded |
-| **Extras** | Scroll progress bar · scroll reveals · go-to-top · mobile nav overlay |
+- **Splash** — ASCII rain, letter-by-letter `ZAHID` reveal
+- **Globe** — Three.js wireframe globe, Dhaka marker, mouse-tracked rotation
+- **Terminals** — live-typed bash terminal (About) + JS object terminal (Contact), syntax highlighted
+- **Project cards** — character-scramble title on hover
+- **Contact headline** — 4 phrases, per-character scramble-dissolve, every 3.5s
+- **Cursor** — custom crosshair, zero-lag, compositor-threaded
+- **Extras** — scroll progress bar, scroll reveals, go-to-top, mobile nav overlay
 
 ---
 
 ## the tricky bits
 
-| what | why it matters |
-|---|---|
-| Globe materials tracked in `_trackedLineMats[]` | recolor everything in one pass, no rebuild |
-| Splash force-loads `Syne` before drawing | fallback font = wrong measured width = off-center title |
-| Terminal types raw text first, swaps to spans after | syntax highlighting without breaking the typing animation |
-| Cursor uses `transform: translate()` not `top`/`left` | stays on compositor thread → no stutter |
-| `will-change` set upfront on animated elements | promotes to GPU layer before animation starts, not during |
-| `overscroll-behavior: none` | kills rubber-band scroll fighting the reveal animations |
+**Globe** — every material gets pushed into `_trackedLineMats[]` at creation, so the whole globe recolors in one pass with no geometry rebuild.
+
+**Splash** — the `ZAHID` title is measured before it's drawn. Skip force-loading `Syne` first and the first frame measures in a fallback font, breaking the centered layout.
+
+**Terminal** — types the raw text first, then swaps in span-annotated HTML once a line finishes. Keeps syntax highlighting from breaking the typing animation.
+
+**Cursor** — moves via `transform: translate()` instead of `top`/`left`, keeping it on the compositor thread with zero stutter.
+
+**Scroll** — `will-change` declared upfront so elements are promoted to their own GPU layer before the animation starts, not during. `overscroll-behavior: none` stops rubber-band scroll from fighting the reveal animations.
 
 ---
 
@@ -65,8 +60,4 @@ everything's in one file, split by `/* ── SECTION NAME ── */` banners. C
 
 ---
 
-<div align="center">
-
 `jahidulislam01018940@gmail.com` · [GitHub](https://github.com/UnrealZahid101894) · [LinkedIn](https://linkedin.com/in/jahidul-islam-672461333)
-
-</div>
