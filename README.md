@@ -1,12 +1,14 @@
+<div align="center">
+
 # zahid.dev
 
 **[unrealzahid.dev →](https://main-portfolio-eight-iota.vercel.app/)**
 
 single-file portfolio. no framework, no build step, no bundler.
 
-`HTML` `CSS` `JS` `Three.js r128`
+HTML CSS JS Three.js r128
 
----
+</div>
 
 ## features
 
